@@ -6,6 +6,8 @@ import path from "node:path";
 import morgan from "morgan"
 import cors from "cors"
 import dotenv from "dotenv"
+import swaggerSpec from "./swagger";
+import swaggerUi from "swagger-ui-express";
 import adminRoute from "./controllers/adminController";
 import typeRoute from "./controllers/typeController";
 import eventRoute from "./controllers/eventController";
@@ -31,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'uploads')))
 if(process.env.NODE_ENV === 'developpement') app.use(morgan("dev"));
 
 // router
+app.use('/api-docs' , swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use('/user' , userRoute);
 app.use('/admin' , adminRoute);
 app.use('/type' , typeRoute);

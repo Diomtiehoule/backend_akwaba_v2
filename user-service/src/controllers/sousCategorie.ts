@@ -1,15 +1,23 @@
 import { Router } from "express";
-import SousCategorieService from "../services/sousCategorie";
+import SousCategorieService from "../services/sousCategorieService";
 import auth from "../middlewares/authMiddleware";
 
 const sousCategorieRoute = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: SousCategorie
+ *   description: Gestion des sous-catégories dans l'application.
+ */
+
+/**
+ * @swagger
  * /sousCategorie/createSousCategorie:
  *   post:
- *     summary: Ajouter un évènement
- *     description: Ajoute un nouvel évènement dans la base de données.
+ *     summary: Créer une sous-catégorie
+ *     description: Ajoute une nouvelle sous-catégorie dans la base de données.
+ *     tags: [SousCategorie]
  *     requestBody:
  *       required: true
  *       content:
@@ -19,86 +27,18 @@ const sousCategorieRoute = Router();
  *             properties:
  *               nom:
  *                 type: string
- *                 description: Le nom de l'évènement.
+ *                 description: nom de la sous-catégorie.
+ *                 example: "football"
  *               description:
  *                 type: string
- *                 description: Description de l'évènement.
- *               dateDebut:
- *                 type: string
- *                 format: date
- *                 description: Date de début de l'évènement (format YYYY-MM-DD).
- *               dateFin:
- *                 type: string
- *                 format: date
- *                 description: Date de fin de l'évènement (format YYYY-MM-DD).
- *               typesousCategorie:
- *                 type: string
- *                 description: Le type d'évènement.
+ *                 description: description de la sous-catégorie .
+ *                 example: "Affrontement des équipes 5 contre 5"
  *             required:
  *               - nom
- *               - dateDebut
- *               - dateFin
- *               - typesousCategorie
- *     responses:
- *       '201':
- *         description: Évènement créé avec succès.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message de succès.
- *                   example: "Évènement créé avec succès."
- *       '401':
- *         description: Erreur au niveau du token.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Action non-autorisée."
- *       '400':
- *         description: Erreur lors de la création de l'évènement.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Veuillez remplir tout les champs."
- */
-
-/**
- * @swagger
- * /sousCategorie/getSousCategorie:
- *   get:
- *     summary: Obtenir un évènement
- *     description: Trouver un évènement grâce à son id.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *               - description
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: sous-catégorie créé.
  *         content:
  *           application/json:
  *             schema:
@@ -106,13 +46,24 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Le type d'évènement trouvé."
+ *                   example: "sous-catégorie créé !"
  *                 data:
  *                   type: object
- *                    
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de la sous-catégorie.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de la sous-catégorie.
+ *                       example: "MASSA"
+ *                     description:
+ *                       type: string
+ *                       description: description de la sous-catégorie .
+ *                       exmple: "Affrontement des équipes 5 contre 5"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur champs.
  *         content:
  *           application/json:
  *             schema:
@@ -120,33 +71,88 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
+ *                   example: "Veuillez remplir tout les champs !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
+ * /sousCategorie/getSousCategorie:
+ *   get:
+ *     summary: Obtenir une sous-catégorie
+ *     description: Récuperer la sous-catégorie.
+ *     tags: [SousCategorie]
+ *     responses:
+ *       '200':
+ *         description: La sous-catégorie correspondant à l'ID.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "La sous-catégorie trouvée "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de la sous-catégorie.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de la sous-catégorie.
+ *                       example: "MASSA"
+ *                     description:
+ *                       type: string
+ *                       description: description de la sous-catégorie.
+ *                       example: "Affrontement des équipes 5 contre 5"
+ *       '400':
+ *         description: Erreur lors de la récupération.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Aucune sous-catégorie trouvée !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
  * /sousCategorie/getAllSousCategorie:
  *   get:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *     summary: Obtenir la liste des sous-catégories
+ *     description: Récuperer toutes les sous-catégories.
+ *     tags: [SousCategorie]
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Les sous-catégories enregistrées.
  *         content:
  *           application/json:
  *             schema:
@@ -154,14 +160,25 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "la liste des sous-catégories "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de l'évènement.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de l'évènement.
+ *                       example: "football"
+ *                     description:
+ *                       type: string
+ *                       description: description de l'évènement.
+ *                       example: "Affrontement des équuipes 5 contre 5"
+ *                     
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
  *             schema:
@@ -169,15 +186,23 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
+ *                   example: "La liste est vide !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
  * /sousCategorie/editSousCategorie:
  *   put:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
+ *     summary: Mettre à jour la sous-catégorie
+ *     description: Modifier la sous-catégorie dans la base de données.
+ *     tags: [SousCategorie]
  *     requestBody:
  *       required: true
  *       content:
@@ -185,17 +210,20 @@ const sousCategorieRoute = Router();
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               nom:
  *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
+ *                 description: Nom de la sous-catégorie.
+ *                 example: "football"
+ *               description:
  *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *                 description: description de la sous-catégorie.
+ *                 example: "affrontement des équipes 5 contre 5"
+ *             required:
+ *               - nom
+ *               - description
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Mise à jour de la sous-catégorie avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -203,14 +231,9 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "Mise à jour éffectuée"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur champs.
  *         content:
  *           application/json:
  *             schema:
@@ -218,33 +241,36 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
+ *                   example: "Veuillez remplir tout les champs !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
  * /sousCategorie/deleteSousCategorie:
  *   delete:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *     summary: Supprimer la sous-categorie
+ *     description: Supprimer la sous-categorie dans la base de données.
+ *     tags: [SousCategorie]
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Supprimer la sous-categorie avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -252,14 +278,9 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "Suppression éffectuée"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: sous-catégorie introuvable.
  *         content:
  *           application/json:
  *             schema:
@@ -267,8 +288,27 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
+ *                   example: "Cette sous-categorie n'existe pas !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
 sousCategorieRoute.post('/createSousCategorie' , auth , SousCategorieService.createSousCategorie);
 sousCategorieRoute.get('/getSousCategorie' , auth , SousCategorieService.getSousCategorieById);

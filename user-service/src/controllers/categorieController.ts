@@ -5,10 +5,18 @@ const categorieRoute = Router()
 
 /**
  * @swagger
+ * tags:
+ *   name: Categorie
+ *   description: Gestion des catégories dans l'application.
+ */
+
+/**
+ * @swagger
  * /categorie/createCategorie:
  *   post:
- *     summary: Ajouter une catégorie
- *     description: Ajoute un nouvel évènement dans la base de données.
+ *     summary: Créer une adresse
+ *     description: Ajoute un nouvel événement dans la base de données.
+ *     tags: [Categorie]
  *     requestBody:
  *       required: true
  *       content:
@@ -18,86 +26,18 @@ const categorieRoute = Router()
  *             properties:
  *               nom:
  *                 type: string
- *                 description: Le nom de l'évènement.
+ *                 description: Catégorie de l'évènement.
+ *                 example: "Sport"
  *               description:
  *                 type: string
- *                 description: Description de l'évènement.
- *               dateDebut:
- *                 type: string
- *                 format: date
- *                 description: Date de début de l'évènement (format YYYY-MM-DD).
- *               dateFin:
- *                 type: string
- *                 format: date
- *                 description: Date de fin de l'évènement (format YYYY-MM-DD).
- *               typeEvent:
- *                 type: string
- *                 description: Le type d'évènement.
+ *                 description: description de la catégorie .
+ *                 example: "activité sportive des moins de 20ans"
  *             required:
  *               - nom
- *               - dateDebut
- *               - dateFin
- *               - typeEvent
- *     responses:
- *       '201':
- *         description: Évènement créé avec succès.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message de succès.
- *                   example: "Évènement créé avec succès."
- *       '401':
- *         description: Erreur au niveau du token.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Action non-autorisée."
- *       '400':
- *         description: Erreur lors de la création de l'évènement.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Veuillez remplir tout les champs."
- */
-
-/**
- * @swagger
- * /categorie/getCategorie:
- *   get:
- *     summary: Obtenir un évènement
- *     description: Trouver un évènement grâce à son id.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *               - description
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Catégorie créé.
  *         content:
  *           application/json:
  *             schema:
@@ -105,13 +45,24 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Le type d'évènement trouvé."
+ *                   example: "Catégorie créé !"
  *                 data:
  *                   type: object
- *                    
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de la catégorie.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de la catégorie.
+ *                       example: "jeunesse"
+ *                     description:
+ *                       type: string
+ *                       description: description de la catégorie.
+ *                       example: "catégorie dédié à la jeunesse"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur champs.
  *         content:
  *           application/json:
  *             schema:
@@ -119,33 +70,89 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
+ *                   example: "Veuillez remplir tout les champs !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
+ * /categorie/getCategorie:
+ *   get:
+ *     summary: Obtenir une catégorie
+ *     description: Récuperer la catégorie.
+ *     tags: [Categorie]
+ *     responses:
+ *       '200':
+ *         description: La catégorie correspondant à l'ID.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "La catégorie trouvée "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de la catégorie.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: categorie de l'évènement.
+ *                       example: "jeunesse"
+ *                     description:
+ *                       type: number
+ *                       description: description de la catégorie.
+ *                       example: "catégorie dédié à la jeunesse"
+ * 
+ *       '400':
+ *         description: Erreur lors de la récupération.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Aucune catégorie trouvée !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
  * /categorie/getAllCategorie:
  *   get:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *     summary: Obtenir la liste des catégories
+ *     description: Récuperer toutes les catégories.
+ *     tags: [Categorie]
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Les catégories enregistrées.
  *         content:
  *           application/json:
  *             schema:
@@ -153,14 +160,25 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "la liste des catégories "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de la catégorie.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: catégorie de l'évènement.
+ *                       example: "jeunesse"
+ *                     description:
+ *                       type: string
+ *                       description: description de la catégorie.
+ *                       example: "catégorie dédié à la jeunesse"
+ *                     
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
  *             schema:
@@ -168,15 +186,23 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
+ *                   example: "La liste est vide !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
  * /categorie/editCategorie:
  *   put:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
+ *     summary: Mettre à jour la catégorie
+ *     description: Modifier la catégorie dans la base de données.
+ *     tags: [Categorie]
  *     requestBody:
  *       required: true
  *       content:
@@ -184,17 +210,20 @@ const categorieRoute = Router()
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               nom:
  *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
+ *                 description: Catégorie de l'évènement.
+ *                 example: "fonctionnaire"
+ *               description:
  *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *                 description: description de la catégorie.
+ *                 example: "catégorie dédiée aux fonctionnaire"
+ *             required:
+ *               - nom
+ *               - description
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Mise à jour de la catégorie avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -202,14 +231,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "Mise à jour éffectuée"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: Erreur champs.
  *         content:
  *           application/json:
  *             schema:
@@ -217,33 +241,36 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
- */
-/**
- * @swagger
- * /event/deleteCategorie:
+ *                   example: "Veuillez remplir tout les champs !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
+ * /categorie/deleteCategorie:
  *   delete:
- *     summary: Connexion d'un administrateur
- *     description: Connecte un administrateur en vérifiant les informations d'identification dans la base de données.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *                 description: Adresse email de l'administrateur.
- *               password:
- *                 type: string
- *                 description: Mot de passe de l'administrateur (minimum 6 caractères).
- *                 minLength: 6
+ *     summary: Supprimer la catégorie
+ *     description: Supprimer la catégorie dans la base de données.
+ *     tags: [Categorie]
  *     responses:
  *       '200':
- *         description: Connexion réussie. Retourne un token d'authentification JWT.
+ *         description: Supprimer la catégorie avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -251,14 +278,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message de succès.
- *                   example: "Connexion réussie."
- *                 token:
- *                   type: string
- *                   description: Token d'authentification JWT.
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                   example: "Suppression éffectuée"
  *       '400':
- *         description: Adresse email ou mot de passe incorrect.
+ *         description: catégorie introuvable.
  *         content:
  *           application/json:
  *             schema:
@@ -266,8 +288,27 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   description: Message d'erreur.
- *                   example: "Adresse email ou mot de passe incorrect."
+ *                   example: "Cette catégorie n'existe !"
+ *       '401':
+ *         description: Erreur de token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Accès non-autorisé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
 categorieRoute.post("/createCategorie" , auth , CategorieService.createCategorie);
 categorieRoute.get('/getCategorie' , CategorieService.getCategorieById);
