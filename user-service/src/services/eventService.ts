@@ -4,21 +4,16 @@ const EventService = {
     createEvent : async (req : any , res : any , next : any) => {
         try {
             const { userId } = req.auth
-            const { nom , description , lieu , date , typeEvent} = req.body;
+            const { nom , description , lieu , dateDebut , dateFin , typeEvent} = req.body;
             const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
             if(!isAdmin || isAdmin.role !== "administrateur") return res.status(401).json({message : "Accès non-autorisé !"})
-            const eventExist = await prisma.event.findFirst({where : {nom , description , lieu , date}})
+            if(nom == "" || description == "" || lieu == "" || dateDebut == "" || dateFin == "" || typeEvent == "") return res.status(400).json({message : "Veuillez remplir tout les champs !!"})
+            const eventExist = await prisma.event.findFirst({where : {nom , description , lieu , dateDebut , dateFin}})
             if(eventExist)return res.status(400).json({message : "Ce évènement a déjà été enregistré"})
             const type = await prisma.type.findFirst({where : {typeEvent}})
             if(!type)return res.status(400).json({message : "Ce type d'évènement n'existe pas"});
-            const newEvent = await prisma.event.create({data : {nom , description ,date , lieu, typeEvent , typeId : type.id}})
-            const data = {
-                nom : newEvent.nom,
-                description : newEvent.description,
-                lieu : newEvent.lieu,
-                date : newEvent.date,
-                typeEvent : newEvent.typeEvent,
-            }
+            const newEvent = await prisma.event.create({data : {nom , description ,dateDebut , dateFin , lieu, typeEvent , typeId : type.id}})
+            const data = {nom : newEvent.nom,description : newEvent.description,lieu : newEvent.lieu,dateDebut : newEvent.dateDebut , dateFin : newEvent.dateFin,typeEvent : newEvent.typeEvent,}
             return res.status(201).json({message : "Evènement créé avec succès !" , data});
         } catch (error : any) {
             console.log(`votre erreur : ${error}`)
@@ -30,13 +25,7 @@ const EventService = {
             const allEvent = await prisma.event.findMany()
             if(allEvent.length === 0) return res.status(400).json({message : "Aucun évènement enregistré !"});
             const data = allEvent.map(event =>{
-                const info = {
-                    nom : event.nom,
-                    description : event.description,
-                    lieu : event.lieu,
-                    date : event.date,
-                    typeEvent : event.typeEvent,
-                }
+                const info = { id : event.id, nom : event.nom,description : event.description,lieu : event.lieu,dateDebut : event.dateDebut , dateFin: event.dateFin,typeEvent : event.typeEvent,}
                 return info;
             })
             return res.status(200).json({message : "Tous les évènements" , data})
@@ -50,13 +39,7 @@ const EventService = {
             const eventId = req.query.id;
             const event = await prisma.event.findUnique({where : {id : Number(eventId)}})
             if(!event)return  res.status(204).json({message :"Aucun évènement trouvé !"})
-            const data = {
-                nom : event.nom,
-                description : event.description,
-                lieu : event.lieu,
-                date : event.date,
-                typeEvent : event.typeEvent,
-            }
+            const data = {nom : event.nom,description : event.description,lieu : event.lieu,dateDebut : event.dateDebut ,dateFin: event.dateFin ,typeEvent : event.typeEvent,}
             res.status(200).json({message : "l'évènement correspondant..." , data})
         } catch (error: any) {
             console.log(`votre erreur : ${error}`)
@@ -70,10 +53,11 @@ const EventService = {
             console.log(eventId)
             const isAdmin = await prisma.admin.findFirst({ where: { id: userId } });
             if (!isAdmin || isAdmin.role !== 'administrateur') return res.status(401).json({ message: "Vous n'avez pas cette autorisation !!!" });
-            const { nom , description , lieu , date , typeEvent } = req.body;
+            const { nom , description , lieu , dateDebut , dateFin , typeEvent } = req.body;
+            if(nom == "" || description == "" || lieu == "" || dateDebut == "" || dateFin == "" || typeEvent == "") return res.status(400).json({message : "Veuillez remplir tout les champs !!"})
             const eventExist = await prisma.event.findFirst({ where: { id : Number(eventId) } });
             if(!eventExist) return res.status(400).json({message : "Aucun évènement trouvé !"})
-            const eventUpdated = await prisma.event.update({where: { id : Number(eventId) },data: { nom , description ,lieu , date , typeEvent}});
+            const eventUpdated = await prisma.event.update({where: { id : Number(eventId) },data: { nom , description ,lieu , dateDebut , dateFin , typeEvent}});
             const isType = await prisma.type.findFirst({where : { typeEvent : typeEvent}})
             if(!isType)return res.status(400).json({message : "Ce type d'évènement n'existe pas"})
             if (!eventUpdated) return res.status(400).json({ message: "Échec de la mise à jour de l'évènement..." });
