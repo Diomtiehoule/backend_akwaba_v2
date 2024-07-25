@@ -16,6 +16,8 @@ const tarifEventRoute = Router()
  * /tarifEvent/createTarif:
  *   post:
  *     summary: Créer un tarif
+ *     security:
+ *          - bearerAuth: []
  *     description: Ajoute un nouveau tarif dans la base de données.
  *     tags: [Tarif]
  *     requestBody:
@@ -106,6 +108,12 @@ const tarifEventRoute = Router()
  *   get:
  *     summary: Obtenir un tarif
  *     description: Récuperer le tarif.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Tarif]
  *     responses:
  *       '200':
@@ -218,7 +226,15 @@ const tarifEventRoute = Router()
  * /tarifEvent/editTarif:
  *   put:
  *     summary: Mettre à jour le tarif
+ *     security:
+ *          - bearerAuth: []
  *     description: Modifier le tarif dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Tarif]
  *     requestBody:
  *       required: true
@@ -288,7 +304,15 @@ const tarifEventRoute = Router()
  * /tarifEvent/deleteTarif:
  *   delete:
  *     summary: Supprimer le tarif
+ *     security:
+ *          - bearerAuth: []
  *     description: Supprimer le tarif dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Tarif]
  *     responses:
  *       '200':
@@ -333,7 +357,7 @@ const tarifEventRoute = Router()
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
 tarifEventRoute.post('/createTarif' , auth ,TarifEventService.createTarifEvent);
-tarifEventRoute.get('/getTarifById' , TarifEventService.getTarifEventById);
+tarifEventRoute.get('/getTarif' , TarifEventService.getTarifEventById);
 tarifEventRoute.get('/getAllTarif' , TarifEventService.getAllTarifEvent);
 tarifEventRoute.put('/editTarif' , auth , TarifEventService.editTarifEvent);
 tarifEventRoute.delete('/deleteTarif' , auth , TarifEventService.deleteTarifEvent);

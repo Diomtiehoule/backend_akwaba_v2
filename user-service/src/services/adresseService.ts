@@ -40,7 +40,7 @@ const adresseService = {
     getAllAdresse : async (req : any , res : any , next : any) => {
         try {
             const allAdresse = await prisma.adresse.findMany()
-            if(allAdresse.length === 0) return res.status(400).json({message : "La lsite est vide"})
+            if(allAdresse.length === 0) return res.status(400).json({message : "La liste est vide"})
             const data = allAdresse.map(adresse =>{
                 const info = {
                     adresse : adresse.adresse,

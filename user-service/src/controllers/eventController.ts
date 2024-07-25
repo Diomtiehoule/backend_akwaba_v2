@@ -16,6 +16,8 @@ const eventRoute = Router();
  * /event/createEvent:
  *   post:
  *     summary: Créer un évènement
+ *     security:
+ *          - bearerAuth: []
  *     description: Ajoute un nouvel événement dans la base de données.
  *     tags: [Event]
  *     requestBody:
@@ -133,6 +135,12 @@ const eventRoute = Router();
  *   get:
  *     summary: Obtenir un évènement
  *     description: Récuperer l'évènement.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Event]
  *     responses:
  *       '200':
@@ -269,7 +277,15 @@ const eventRoute = Router();
  * /event/editEvent:
  *   put:
  *     summary: Mettre à jour la catégorie
+ *     security:
+ *          - bearerAuth: []
  *     description: Modifier l'adresse dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Event]
  *     requestBody:
  *       required: true
@@ -354,7 +370,15 @@ const eventRoute = Router();
  * /event/deleteEvent:
  *   delete:
  *     summary: Supprimer l'évènement
+ *     security:
+ *          - bearerAuth: []
  *     description: Supprimer l'évènement dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Event]
  *     responses:
  *       '200':
@@ -399,7 +423,7 @@ const eventRoute = Router();
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
 eventRoute.post('/createEvent' , auth , EventService.createEvent);
-eventRoute.get('/getAllEvents' , auth , EventService.getAllEvents);
+eventRoute.get('/getAllEvent' , auth , EventService.getAllEvents);
 eventRoute.get('/getEvent' , auth , EventService.getEventById);
 eventRoute.put('/editEvent' , auth , EventService.editEvent);
 eventRoute.delete('/deleteEvent' , auth , EventService.deleteEvent);

@@ -16,6 +16,8 @@ const programmeRoute = Router()
  * /programme/createProgramme:
  *   post:
  *     summary: Créer un programme
+ *     security:
+ *          - bearerAuth: []
  *     description: Ajoute un nouveau programme dans la base de données.
  *     tags: [Programme]
  *     requestBody:
@@ -27,7 +29,7 @@ const programmeRoute = Router()
  *             properties:
  *               programme:
  *                 type: string
- *                 description: Programme de l'évènement.
+ *                 description: programme de l'évènement.
  *                 example: "Concert"
  *               evenement:
  *                 type: string
@@ -38,7 +40,7 @@ const programmeRoute = Router()
  *               - evenement
  *     responses:
  *       '200':
- *         description: Programme créé.
+ *         description: programme créé.
  *         content:
  *           application/json:
  *             schema:
@@ -46,7 +48,7 @@ const programmeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Programme créé !"
+ *                   example: "programme créé !"
  *                 data:
  *                   type: object
  *                   properties:
@@ -97,6 +99,12 @@ const programmeRoute = Router()
  *   get:
  *     summary: Obtenir un programme
  *     description: Récuperer le programme.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Programme]
  *     responses:
  *       '200':
@@ -202,7 +210,15 @@ const programmeRoute = Router()
  * /programme/editProgramme:
  *   put:
  *     summary: Mettre à jour le programme
+ *     security:
+ *          - bearerAuth: []
  *     description: Modifier le programme dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Programme]
  *     requestBody:
  *       required: true
@@ -213,7 +229,7 @@ const programmeRoute = Router()
  *             properties:
  *               prgramme:
  *                 type: string
- *                 description: Programme de l'évènement.
+ *                 description: programme de l'évènement.
  *                 example: "défiler"
  *               evenement:
  *                 type: string
@@ -267,7 +283,15 @@ const programmeRoute = Router()
  * /programme/deleteProgramme:
  *   delete:
  *     summary: Supprimer le programme
+ *     security:
+ *          - bearerAuth: []
  *     description: Supprimer le programme dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Programme]
  *     responses:
  *       '200':

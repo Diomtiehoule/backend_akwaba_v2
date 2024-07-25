@@ -15,6 +15,8 @@ const categorieRoute = Router()
  * /categorie/createCategorie:
  *   post:
  *     summary: Créer une adresse
+ *     security:
+ *          - bearerAuth: []
  *     description: Ajoute un nouvel événement dans la base de données.
  *     tags: [Categorie]
  *     requestBody:
@@ -96,6 +98,12 @@ const categorieRoute = Router()
  *   get:
  *     summary: Obtenir une catégorie
  *     description: Récuperer la catégorie.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Categorie]
  *     responses:
  *       '200':
@@ -201,7 +209,15 @@ const categorieRoute = Router()
  * /categorie/editCategorie:
  *   put:
  *     summary: Mettre à jour la catégorie
+ *     security:
+ *          - bearerAuth: []
  *     description: Modifier la catégorie dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Categorie]
  *     requestBody:
  *       required: true
@@ -266,7 +282,15 @@ const categorieRoute = Router()
  * /categorie/deleteCategorie:
  *   delete:
  *     summary: Supprimer la catégorie
+ *     security:
+ *          - bearerAuth: []
  *     description: Supprimer la catégorie dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Categorie]
  *     responses:
  *       '200':

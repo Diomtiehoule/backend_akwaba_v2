@@ -116,6 +116,22 @@ model Programme {
   evenement String?
   event Event @relation(fields: [eventId] , references: [id])
   eventId Int
+  lignProgramme lignProgramme[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model lignProgramme{
+  id Int @id @default(autoincrement())
+  libelle String?
+  description String?
+  dateDebut String?
+  dateFin String?
+  heureDebut String?
+  heureFin String?
+  program Programme @relation(fields: [programmeId] , references: [id])
+  programme String?
+  programmeId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

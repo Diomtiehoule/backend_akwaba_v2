@@ -16,7 +16,15 @@ const adresseRoute = Router()
  * /adresse/createAdresse:
  *   post:
  *     summary: Créer une adresse
+ *     security:
+ *          - bearerAuth: []
  *     description: Ajoute un nouvel événement dans la base de données.
+ *     components:
+ *      securitySchemes:
+ *           bearerAuth:
+ *           type: http
+ *           scheme: bearer
+ *           bearerFormat: JWT
  *     tags: [Adresse]
  *     requestBody:
  *       required: true
@@ -113,6 +121,12 @@ const adresseRoute = Router()
  *   get:
  *     summary: Obtenir une adresse
  *     description: Récuperer l'adresse.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Adresse]
  *     responses:
  *       '200':
@@ -233,7 +247,15 @@ const adresseRoute = Router()
  * /adresse/editAdresse:
  *   put:
  *     summary: Mettre à jour la catégorie
+ *     security:
+ *          - bearerAuth: []
  *     description: Modifier l'adresse dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Adresse]
  *     requestBody:
  *       required: true
@@ -308,7 +330,15 @@ const adresseRoute = Router()
  * /adresse/deleteAdresse:
  *   delete:
  *     summary: Supprimer l'adresse
+ *     security:
+ *          - bearerAuth: []
  *     description: Supprimer l'adresse dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
  *     tags: [Adresse]
  *     responses:
  *       '200':

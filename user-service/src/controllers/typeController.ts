@@ -7,17 +7,19 @@ const typeRoute = Router()
 /**
  * @swagger
  * tags:
- *   name: Tarif
- *   description: Gestion des Tarif dans l'application.
+ *   name: Type
+ *   description: Gestion des types dans l'application.
  */
 
 /**
  * @swagger
- * /tarifEvent/createTarif:
+ * /type/createType:
  *   post:
- *     summary: Créer un tarif
- *     description: Ajoute un nouveau tarif dans la base de données.
- *     tags: [Tarif]
+ *     summary: Créer un type
+ *     security:
+ *          - bearerAuth: []
+ *     description: Ajoute un nouveau type dans la base de données.
+ *     tags: [Type]
  *     requestBody:
  *       required: true
  *       content:
@@ -25,25 +27,20 @@ const typeRoute = Router()
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               typeEvent:
  *                 type: string
- *                 description: nom du tarif.
- *                 example: "VIP"
- *               prix:
- *                 type: number
- *                 description: le prix du tarif .
- *                 example: 25000
- *               event:
+ *                 description: le type d'évènement.
+ *                 example: "personel"
+ *               description:
  *                 type: string
- *                 description: Evènement associé au tarif.
- *                 example: "MASSA"
+ *                 description: description du type d'évènement .
+ *                 example: "évènement de type restreint"
  *             required:
- *               - nom
+ *               - typeEvent
  *               - description
- *               - event
  *     responses:
  *       '200':
- *         description: tarif créé.
+ *         description: type créé.
  *         content:
  *           application/json:
  *             schema:
@@ -51,26 +48,22 @@ const typeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "tarif créé !"
+ *                   example: "type créé !"
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id du tarif.
+ *                       description: id du type.
  *                       example: 1
- *                     nom:
+ *                     typeEvent:
  *                       type: string
- *                       description: nom du tarif.
- *                       example: "MASSA"
- *                     prix:
- *                       type: number
- *                       description: prix du tarif.
- *                       example: 25000
- *                     event:
+ *                       description: type d'évènement.
+ *                       example: "personel"
+ *                     description:
  *                       type: string
- *                       description: Evènement associé au tarif .
- *                       exmple: "MASSA"
+ *                       description: description du type d'évènement .
+ *                       example: "évènement de type restreint"
  *       '400':
  *         description: Erreur champs.
  *         content:
@@ -102,14 +95,20 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /tarifEvent/getTarif:
+ * /type/getType:
  *   get:
- *     summary: Obtenir un tarif
- *     description: Récuperer le tarif.
- *     tags: [Tarif]
+ *     summary: Obtenir un type
+ *     description: Récuperer le type.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
+ *     tags: [Type]
  *     responses:
  *       '200':
- *         description: Le tarif correspondant à l'ID.
+ *         description: Le type correspondant à l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -117,26 +116,22 @@ const typeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Le tarif trouvé "
+ *                   example: "Le type trouvé "
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id du tarif.
+ *                       description: id du type.
  *                       example: 1
- *                     nom:
+ *                     typeEvent:
  *                       type: string
- *                       description: nom du tarif.
- *                       example: "VIP"
- *                     prix:
- *                       type: number
- *                       description: le prix du tarif.
- *                       example: 2500
- *                     event:
+ *                       description: le type d'évènement.
+ *                       example: "personel"
+ *                     description:
  *                       type: string
- *                       description: Evènement associé au tarif.
- *                       example: "MASSA"
+ *                       description: description du type d'évènement.
+ *                       example: "évènement de type restreint"
  *       '400':
  *         description: Erreur lors de la récupération.
  *         content:
@@ -146,7 +141,7 @@ const typeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Aucune tarif trouvée !"
+ *                   example: "Aucune type trouvée !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -158,14 +153,14 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /tarifEvent/getAllTarif:
+ * /type/getAllType:
  *   get:
- *     summary: Obtenir la liste des tarifs
- *     description: Récuperer tout les tarifs.
- *     tags: [Tarif]
+ *     summary: Obtenir la liste des types
+ *     description: Récuperer tout les types.
+ *     tags: [Type]
  *     responses:
  *       '200':
- *         description: Les tarifs enregistrées.
+ *         description: Les types enregistrées.
  *         content:
  *           application/json:
  *             schema:
@@ -173,26 +168,22 @@ const typeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "la liste des tarifs "
+ *                   example: "la liste des types "
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id de l'évènement.
+ *                       description: id du type.
  *                       example: 1
- *                     nom:
+ *                     typeEvent:
  *                       type: string
- *                       description: nom du tarif.
- *                       example: "VIP"
- *                     prix:
- *                       type: number
- *                       description: prix du tarif.
- *                       example: 25000
- *                     event:
+ *                       description: le type d'évènement.
+ *                       example: "personel"
+ *                     description:
  *                       type: string
- *                       description: Evènement associé au tarif.
- *                       example: "MASSA"
+ *                       description: description du type d'évènement.
+ *                       example: "évènement de type restreint"
  *                     
  *       '400':
  *         description: Erreur lors de la récupération.
@@ -215,11 +206,19 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /tarifEvent/editTarif:
+ * /type/editType:
  *   put:
- *     summary: Mettre à jour le tarif
- *     description: Modifier le tarif dans la base de données.
- *     tags: [Tarif]
+ *     summary: Mettre à jour le type
+ *     security:
+ *          - bearerAuth: []
+ *     description: Modifier le type dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
+ *     tags: [Type]
  *     requestBody:
  *       required: true
  *       content:
@@ -227,25 +226,20 @@ const typeRoute = Router()
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               typeEvent:
  *                 type: string
- *                 description: le nom du tarif.
- *                 example: "VIP"
- *               prix:
- *                 type: number
- *                 description: le prix du tarif.
- *                 example: 25000
- *               event:
+ *                 description: le type d'évènement.
+ *                 example: "personel"
+ *               description:
  *                 type: string
- *                 description: évènement associé au tarif.
- *                 example: "MASSA"
+ *                 description: description du type d'évènement.
+ *                 example: "évènement de type restreint"
  *             required:
- *               - typeTarif
- *               - prix
- *               - event
+ *               - typeEvent
+ *               - description
  *     responses:
  *       '200':
- *         description: Mise à jour du tarif avec l'ID.
+ *         description: Mise à jour du type avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -285,14 +279,22 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /tarifEvent/deleteTarif:
+ * /type/deleteType:
  *   delete:
- *     summary: Supprimer le tarif
- *     description: Supprimer le tarif dans la base de données.
- *     tags: [Tarif]
+ *     summary: Supprimer le type
+ *     security:
+ *          - bearerAuth: []
+ *     description: Supprimer le type dans la base de données.
+ *     parameters:
+ *          - name: id
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
+ *     tags: [Type]
  *     responses:
  *       '200':
- *         description: Supprimer le tarif avec l'ID.
+ *         description: Supprimer le type avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -302,7 +304,7 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Suppression éffectuée"
  *       '400':
- *         description: tarif introuvable.
+ *         description: type introuvable.
  *         content:
  *           application/json:
  *             schema:
@@ -310,7 +312,7 @@ const typeRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Ce tarif n'existe pas !"
+ *                   example: "Ce type n'existe pas !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -332,10 +334,10 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-typeRoute.post('/create' , auth, TypeService.createType);
+typeRoute.post('/createType' , auth, TypeService.createType);
 typeRoute.get('/getType' , TypeService.getTypeById);
 typeRoute.get('/getAllType' , TypeService.getAllType);
-typeRoute.put('/edit' , auth , TypeService.editType);
-typeRoute.delete('/delete' , auth , TypeService.deleteType);
+typeRoute.put('/editType' , auth , TypeService.editType);
+typeRoute.delete('/deleteType' , auth , TypeService.deleteType);
 
 export default typeRoute;

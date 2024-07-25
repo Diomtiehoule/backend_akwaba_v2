@@ -25,7 +25,7 @@ const auth = async (req: any, res: any, next: NextFunction) => {
     } catch (error : any) {
         return res.status(401).json({ message: 'Une erreur est survenue au niveau du token', error: error.message });
     }
-};
+}
 
 export default auth;
 

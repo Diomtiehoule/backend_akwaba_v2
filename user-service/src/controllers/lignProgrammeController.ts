@@ -1,25 +1,31 @@
-import { Router } from "express";
-import SousCategorieService from "../services/sousCategorieService";
+import lignProgrammeService from "../services/lignProgrammeService";
 import auth from "../middlewares/authMiddleware";
+import { Router } from "express";
 
-const sousCategorieRoute = Router();
+const lignProgrammeRoute= Router();
 
 /**
  * @swagger
  * tags:
- *   name: SousCategorie
- *   description: Gestion des sous-catégories dans l'application.
+ *   name: LignProgramme
+ *   description: Gestion des lignProgrammes dans l'application.
+ *   components:
+ *   securitySchemes:
+ *           bearerAuth:
+ *           type: http
+ *           scheme: bearer
+ *           bearerFormat: JWT
  */
 
 /**
  * @swagger
- * /sousCategorie/createSousCategorie:
+ * /lignProgramme/createLignProgramme:
  *   post:
- *     summary: Créer une sous-
+ *     summary: Créer une lignProgramme
  *     security:
  *          - bearerAuth: []
- *     description: Ajoute une nouvelle sous-catégorie dans la base de données.
- *     tags: [SousCategorie]
+ *     description: Ajoute une nouvelle lignProgramme dans la base de données.
+ *     tags: [LignProgramme]
  *     requestBody:
  *       required: true
  *       content:
@@ -27,20 +33,33 @@ const sousCategorieRoute = Router();
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               lignProgramme:
  *                 type: string
- *                 description: nom de la sous-catégorie.
- *                 example: "football"
- *               description:
+ *                 description: lignProgramme évènement.
+ *                 example: "port bouet 2"
+ *               longitude:
+ *                 type: number
+ *                 description: longitude .
+ *                 exmple: 125.2
+ *               largitude:
+ *                 type: number
+ *                 description: largitude.
+ *               evenement:
  *                 type: string
- *                 description: description de la sous-catégorie .
- *                 example: "Affrontement des équipes 5 contre 5"
+ *                 description: Evenement associé à l'lignProgramme.
  *             required:
- *               - nom
- *               - description
+ *               - lignProgramme
+ *               - longitude
+ *               - largitude
+ *               - evenement
  *     responses:
  *       '200':
- *         description: sous-catégorie créé.
+ *         description: lignProgramme créé.
+ *         securitySchemes:
+ *           bearerAuth:
+ *               type: http
+ *               scheme: bearer
+ *               bearerFormat: JWT
  *         content:
  *           application/json:
  *             schema:
@@ -48,22 +67,30 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "sous-catégorie créé !"
+ *                   example: "lignProgramme créé !"
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id de la sous-catégorie.
+ *                       description: id de l'lignProgramme.
  *                       example: 1
- *                     nom:
+ *                     lignProgramme:
  *                       type: string
- *                       description: nom de la sous-catégorie.
- *                       example: "MASSA"
- *                     description:
+ *                       description: lignProgramme.
+ *                       example: "port bouet 2"
+ *                     longitude:
+ *                       type: number
+ *                       description: Longitude.
+ *                       example: 200.3
+ *                     largitude:
+ *                       type: number
+ *                       description: Largitude.
+ *                       example: 100.3
+ *                     evenement:
  *                       type: string
- *                       description: description de la sous-catégorie .
- *                       exmple: "Affrontement des équipes 5 contre 5"
+ *                       description: Evenement
+ *                       example: "festival"
  *       '400':
  *         description: Erreur champs.
  *         content:
@@ -95,20 +122,20 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /sousCategorie/getSousCategorie:
+ * /lignProgramme/getLignProgramme:
  *   get:
- *     summary: Obtenir une sous-catégorie
- *     description: Récuperer la sous-catégorie.
+ *     summary: Obtenir une lignProgramme
+ *     description: Récuperer l'lignProgramme.
  *     parameters:
  *          - name: id
  *            in: query
  *            required: true
  *            scheme: 
  *              type: integer
- *     tags: [SousCategorie]
+ *     tags: [LignProgramme]
  *     responses:
  *       '200':
- *         description: La sous-catégorie correspondant à l'ID.
+ *         description: L'lignProgramme correspondant à l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -116,22 +143,30 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "La sous-catégorie trouvée "
+ *                   example: "L'lignProgramme trouvé "
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id de la sous-catégorie.
+ *                       description: id de l'lignProgramme.
  *                       example: 1
- *                     nom:
+ *                     lignProgramme:
  *                       type: string
- *                       description: nom de la sous-catégorie.
- *                       example: "MASSA"
- *                     description:
+ *                       description: lignProgramme de l'évènement.
+ *                       example: "port bouet 2"
+ *                     longitude:
+ *                       type: number
+ *                       description: Longitude de l'lignProgramme.
+ *                       example: 200.3
+ *                     largitude:
+ *                       type: number
+ *                       description: Largitude de l'lignProgramme.
+ *                       example: 100.3
+ *                     evenement:
  *                       type: string
- *                       description: description de la sous-catégorie.
- *                       example: "Affrontement des équipes 5 contre 5"
+ *                       description: L'évènement associé à l'lignProgramme.
+ *                       example: "festival"
  *       '400':
  *         description: Erreur lors de la récupération.
  *         content:
@@ -141,7 +176,7 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Aucune sous-catégorie trouvée !"
+ *                   example: "Aucune lignProgramme trouvé !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -153,14 +188,14 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /sousCategorie/getAllSousCategorie:
+ * /lignProgramme/getAllLignProgramme:
  *   get:
- *     summary: Obtenir la liste des sous-catégories
- *     description: Récuperer toutes les sous-catégories.
- *     tags: [SousCategorie]
+ *     summary: Obtenir la liste des lignProgrammes
+ *     description: Récuperer toutes les lignProgrammes.
+ *     tags: [LignProgramme]
  *     responses:
  *       '200':
- *         description: Les sous-catégories enregistrées.
+ *         description: Les lignProgrammes enregistrées.
  *         content:
  *           application/json:
  *             schema:
@@ -168,22 +203,30 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "la liste des sous-catégories "
+ *                   example: "la liste des lignProgrammes "
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
  *                       type: number
- *                       description: id de l'évènement.
+ *                       description: id de l'lignProgramme.
  *                       example: 1
- *                     nom:
+ *                     lignProgramme:
  *                       type: string
- *                       description: nom de l'évènement.
- *                       example: "football"
- *                     description:
+ *                       description: lignProgramme de l'évènement.
+ *                       example: "port bouet 2"
+ *                     longitude:
+ *                       type: number
+ *                       description: Longitude de l'lignProgramme.
+ *                       example: 200.3
+ *                     largitude:
+ *                       type: number
+ *                       description: Largitude de l'lignProgramme.
+ *                       example: 100.3
+ *                     evenement:
  *                       type: string
- *                       description: description de l'évènement.
- *                       example: "Affrontement des équuipes 5 contre 5"
+ *                       description: L'évènement associé à l'lignProgramme.
+ *                       example: "festival"
  *                     
  *       '400':
  *         description: Erreur lors de la récupération.
@@ -206,19 +249,19 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /sousCategorie/editSousCategorie:
+ * /lignProgramme/editLignProgramme:
  *   put:
- *     summary: Mettre à jour la sous-catégorie
+ *     summary: Mettre à jour la lignProgramme
  *     security:
  *          - bearerAuth: []
- *     description: Modifier la sous-catégorie dans la base de données.
+ *     description: Modifier la lignProgramme dans la base de données.
  *     parameters:
  *          - name: id
  *            in: query
  *            required: true
  *            scheme: 
  *              type: integer
- *     tags: [SousCategorie]
+ *     tags: [LignProgramme]
  *     requestBody:
  *       required: true
  *       content:
@@ -226,20 +269,30 @@ const sousCategorieRoute = Router();
  *           schema:
  *             type: object
  *             properties:
- *               nom:
+ *               lignProgramme:
  *                 type: string
- *                 description: Nom de la sous-catégorie.
- *                 example: "football"
- *               description:
+ *                 description: lignProgramme de l'évènement.
+ *                 example: "marocry INJS"
+ *               longitude:
+ *                 type: number
+ *                 description: longitude.
+ *                 example: 650.8
+ *               largitude:
+ *                 type: number
+ *                 description: largitude.
+ *                 example: 875.21
+ *               evenement:
  *                 type: string
- *                 description: description de la sous-catégorie.
- *                 example: "affrontement des équipes 5 contre 5"
+ *                 description: Evenement associé à la lignProgramme.
+ *                 example: "Tournoi"
  *             required:
- *               - nom
- *               - description
+ *               - lignProgramme
+ *               - longitude
+ *               - largitude
+ *               - evenement
  *     responses:
  *       '200':
- *         description: Mise à jour de la sous-catégorie avec l'ID.
+ *         description: Mise à jour de la lignProgramme avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -279,22 +332,22 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  * 
- * /sousCategorie/deleteSousCategorie:
+ * /lignProgramme/deleteLignProgramme:
  *   delete:
- *     summary: Supprimer la sous-categorie
+ *     summary: Supprimer la lignProgramme
  *     security:
  *          - bearerAuth: []
- *     description: Supprimer la sous-categorie dans la base de données.
+ *     description: Supprimer la lignProgramme dans la base de données.
  *     parameters:
  *          - name: id
  *            in: query
  *            required: true
  *            scheme: 
  *              type: integer
- *     tags: [SousCategorie]
+ *     tags: [LignProgramme]
  *     responses:
  *       '200':
- *         description: Supprimer la sous-categorie avec l'ID.
+ *         description: Supprimer la lignProgramme avec l'ID.
  *         content:
  *           application/json:
  *             schema:
@@ -304,7 +357,7 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Suppression éffectuée"
  *       '400':
- *         description: sous-catégorie introuvable.
+ *         description: lignProgramme introuvable.
  *         content:
  *           application/json:
  *             schema:
@@ -312,7 +365,7 @@ const sousCategorieRoute = Router();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Cette sous-categorie n'existe pas !"
+ *                   example: "Cette lignProgramme n'existe !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -334,10 +387,10 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-sousCategorieRoute.post('/createSousCategorie' , auth , SousCategorieService.createSousCategorie);
-sousCategorieRoute.get('/getSousCategorie' , auth , SousCategorieService.getSousCategorieById);
-sousCategorieRoute.get('/getAllSousCategorie' , auth , SousCategorieService.getAllSousCategorie);
-sousCategorieRoute.put('/editSousCategorie' , auth , SousCategorieService.editSousCategorie);
-sousCategorieRoute.delete('/deleteSousCategorie' , auth , SousCategorieService.deleteSousCategorie);
+lignProgrammeRoute.post('/createLignProgramme' , auth , lignProgrammeService.createLignProgramme);
+lignProgrammeRoute.get('/getLignProgramme' , lignProgrammeService.getLignProgramme);
+lignProgrammeRoute.get('/getAllLignProgramme' , lignProgrammeService.getAllLignProgramme);
+lignProgrammeRoute.put('/editLignProgramme' , auth , lignProgrammeService.editLignProgramme);
+lignProgrammeRoute.delete('/deleteLignProgramme' , auth , lignProgrammeService.deleteLignProgramme);
 
-export default sousCategorieRoute;
+export default lignProgrammeRoute;
