@@ -17,6 +17,7 @@ import tarifEventRoute from "./controllers/tarifEventController";
 import adresseRoute from "./controllers/adresseController";
 import programmeRoute from "./controllers/programmeController";
 import lignProgrammeRoute from "./controllers/lignProgrammeController";
+import packageRoute from "./controllers/packageController";
 
 dotenv.config({
     path: '.env'
@@ -44,6 +45,7 @@ app.use('/tarifEvent' , tarifEventRoute);
 app.use('/adresse' , adresseRoute);
 app.use('/programme' , programmeRoute);
 app.use('/lignProgramme' , lignProgrammeRoute);
+app.use('/package' , packageRoute);
 app.all('*' , (req , _res , next) => {
     next(new ApiError(`can't find this route : ${req.originalUrl}`, 404))
 })
