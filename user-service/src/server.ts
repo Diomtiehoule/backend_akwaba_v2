@@ -2,12 +2,12 @@ import express , { response , request , application , NextFunction, Application}
 import userRoute from "./controllers/userController";
 import { globalError } from "./middlewares/errorMiddleware";
 import { ApiError } from "./utils/apiError";
-import path from "node:path";
 import morgan from "morgan"
 import cors from "cors"
 import dotenv from "dotenv"
 import swaggerSpec from "./swagger";
 import swaggerUi from "swagger-ui-express";
+import prisma from "./utils/prisma.config";
 import adminRoute from "./controllers/adminController";
 import typeRoute from "./controllers/typeController";
 import eventRoute from "./controllers/eventController";
@@ -30,7 +30,6 @@ const app: Application = express();
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use(express.static(path.join(__dirname, 'uploads')))
 if(process.env.NODE_ENV === 'developpement') app.use(morgan("dev"));
 
 // router
@@ -51,12 +50,26 @@ app.all('*' , (req , _res , next) => {
 
 
 // global error handing middleware 
-
 app.use(globalError);
-app.use(cors())
 
-const server = app.listen(PORT , () =>{
-    console.log(`server  running on port ${PORT}`)
+// cors settings. Allow GET, POST, DELETE and POST method
+app.use(cors({
+    origin: '*',
+    methods: ["GET" , "POST" , "PUT" , "DELETE"]
+}))
+
+
+//start server
+const server = app.listen(PORT , async() =>{
+    try{
+        console.log(`server  running on port ${PORT}`)
+        prisma.$connect().then(() => console.log('Database connection etablished'));
+    }catch(err){
+        console.error(err)
+        prisma.$disconnect();
+        process.exit(1)
+    }
+    
 })
 
 // handle rejection outside express 
@@ -68,5 +81,3 @@ process.on('unhandledRejection' , (err) =>{
         process.exit(1)
     })
 })
-
-// routes

@@ -3,10 +3,9 @@ import prisma from "../utils/prisma.config";
 const EventService = {
     createEvent : async (req : any , res : any , next : any) => {
         try {
-            const { userId } = req.auth
+            const user = req.user
             const { nom , description , lieu , dateDebut , dateFin , typeEvent} = req.body;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin || isAdmin.role !== "administrateur") return res.status(401).json({message : "Accès non-autorisé !"})
+            if(user.role_id === 1) return res.status(401).json({message : "Accès non-autorisé !"})
             if(nom == "" || description == "" || lieu == "" || dateDebut == "" || dateFin == "" || typeEvent == "") return res.status(400).json({message : "Veuillez remplir tout les champs !!"})
             const eventExist = await prisma.event.findFirst({where : {nom , description , lieu , dateDebut , dateFin}})
             if(eventExist)return res.status(400).json({message : "Ce évènement a déjà été enregistré"})
@@ -48,11 +47,9 @@ const EventService = {
     },
     editEvent : async (req: any, res: any, next: any) => {
         try {
-            const { userId } = req.auth;
+            const user = req.user;
             const eventId = req.query.id;
-            console.log(eventId)
-            const isAdmin = await prisma.admin.findFirst({ where: { id: userId } });
-            if (!isAdmin || isAdmin.role !== 'administrateur') return res.status(401).json({ message: "Vous n'avez pas cette autorisation !!!" });
+            if (user.role_id === 1) return res.status(401).json({ message: "Vous n'avez pas cette autorisation !!!" });
             const { nom , description , lieu , dateDebut , dateFin , typeEvent } = req.body;
             if(nom == "" || description == "" || lieu == "" || dateDebut == "" || dateFin == "" || typeEvent == "") return res.status(400).json({message : "Veuillez remplir tout les champs !!"})
             const eventExist = await prisma.event.findFirst({ where: { id : Number(eventId) } });
@@ -69,10 +66,9 @@ const EventService = {
     },
     deleteEvent : async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth;
-            const eventId = req.query.id;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}});
-            if(!isAdmin || isAdmin.role !== "administrateur") return res.status(401).json({message : "Accès non-autorisé !"});
+            const user = req.user;
+            const eventId = req.query.id;;
+            if(user.role_id === 1) return res.status(401).json({message : "Accès non-autorisé !"});
             const eventExist = await prisma.event.findFirst({where : {id : Number(eventId)}});
             if(!eventExist) return res.status(400).json({message: "Aucun évènement trouvé !"});
             const eventDeleted = await prisma.event.delete({where : {id : Number(eventId)}});

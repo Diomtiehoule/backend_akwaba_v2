@@ -3,9 +3,8 @@ import prisma from "../utils/prisma.config";
 const adresseService = {
     createAdresse : async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin)return res.status(401).json({message : "Action non-autorisée !"})
+            const user = req.user
+            if(user.role_id === 1)return res.status(401).json({message : "Action non-autorisée !"})
             const {adresse , longitude , largitude , evenement} = req.body
             if(adresse == "" || longitude == "" || largitude == "" || evenement == "") return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const isEvent = await prisma.event.findFirst({where : {nom : evenement}})
@@ -40,7 +39,7 @@ const adresseService = {
     getAllAdresse : async (req : any , res : any , next : any) => {
         try {
             const allAdresse = await prisma.adresse.findMany()
-            if(allAdresse.length === 0) return res.status(400).json({message : "La liste est vide"})
+            if(allAdresse.length === 0) return res.status(400).json({message : "La lsite est vide"})
             const data = allAdresse.map(adresse =>{
                 const info = {
                     adresse : adresse.adresse,
@@ -58,10 +57,9 @@ const adresseService = {
     },
     editAdresse : async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
+            const user = req.user
             const adresseId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin)return res.status(401).json({message : "Action non-autorisée !"})
+            if(user.role_id === 1)return res.status(401).json({message : "Action non-autorisée !"})
             const isAdresse = await prisma.adresse.findFirst({where :{id : Number(adresseId)}})
             if(!isAdresse)return res.status(400).json({message : "Cette adresse n'existe pas !"})
             const {adresse , longitude , largitude , evenement} = req.body
@@ -79,10 +77,9 @@ const adresseService = {
     },
     deleteAdresse : async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
+            const user = req.user
             const adresseId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin)return res.status(401).json({message : "Action non-autorisée !"})
+            if(user.role_id === 1)return res.status(401).json({message : "Action non-autorisée !"})
             const isAdresse = await prisma.adresse.findFirst({where :{id : Number(adresseId)}})
             if(!isAdresse)return res.status(400).json({message : "Cette adresse n'existe pas !"})
             const deleteAdresse = await prisma.adresse.delete({where : {id : Number(adresseId)}})

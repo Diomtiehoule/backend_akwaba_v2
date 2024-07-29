@@ -3,9 +3,8 @@ import prisma from "../utils/prisma.config";
 const CategorieService = {
     createCategorie: async (req : any , res :any , next : any) => {
         try {
-            const {userId} = req.auth;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisé !"});
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"});
             const { nom , description } = req.body;
             if(nom == "" || description == "") return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const categorieExist = await prisma.categorie.findFirst({where : {nom , description}});
@@ -24,10 +23,9 @@ const CategorieService = {
     },
     editCategorie: async (req : any , res : any , next : any) => {
         try {
-            const { userId } = req.auth;
-            const categorieId = req.query.id;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}});
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisé !"})
+            const user = req.user
+            const categorieId = req.query.id;;
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"})
             const isCategorie = await prisma.categorie.findFirst({where : {id : Number(categorieId)}})
             if(!isCategorie) return res.status(400).json({message :"Aucune catégorie trouvé !"})
             const {nom , description} = req.body
@@ -68,10 +66,9 @@ const CategorieService = {
     },
     deleteCategorie: async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth;
+            const user = req.user
             const categorieId = req.query.id;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(400).json({message : "Action non-autorisée !"})
+            if(user.role_id === 1) return res.status(400).json({message : "Action non-autorisée !"})
             const isCategorie = await prisma.categorie.findFirst({where : {id : Number(categorieId)}})
             if(!isCategorie) return res.status.json({message : "Cette catégorie n'existe pas !"})
             const deleteCategorie = await prisma.categorie.delete({where : {id : Number(categorieId)}})

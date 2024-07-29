@@ -6,13 +6,11 @@ import { generatoken } from "../utils/token";
 const userService = {
     createUser: async (req : any, res : any) => {
         try {
-            const { username, email, number, password } = req.body;
+            const { email, password } = req.body;
             const userExist = await prisma.user.findFirst({ where: { email }});
             if (userExist) return res.status(400).json({ message: "Cet utilisateur existe déjà !!!" });
-            const numberUsed = await prisma.user.findFirst({where: { number }});
-            if (numberUsed) return res.status(400).json({ message: "Ce contact est déjà utilisé !!!" });
             const passwordHash = await bcrypt.hash(password, 10);
-            const newUser = await prisma.user.create({data: {username,email,number,password: passwordHash}});
+            const newUser = await prisma.user.create({data: {email,password: passwordHash}});
             if (!newUser) res.status(400).json({ message: "Échec de la création de l'utilisateur..." });
             return res.status(200).json({ message: "L'utilisateur a été ajouté avec succès !!!" ,newUser});
         } catch (error) {

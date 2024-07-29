@@ -3,9 +3,8 @@ import prisma from "../utils/prisma.config";
 const SousCategorieService = {
     createSousCategorie: async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisé !"})
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"})
             const {nom , description , categorieEvent} = req.body
             if(nom  == "" || description == "" || categorieEvent == "") return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const isCategorieEvent = await prisma.categorie.findFirst({where : {nom : categorieEvent}});
@@ -50,10 +49,9 @@ const SousCategorieService = {
     },
     editSousCategorie: async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth;
+            const user = req.user;
             const sousCategorieId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisé !"})
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"})
             const isSousCategorie = await prisma.sousCategorie.findFirst({where : {id : Number(sousCategorieId)} });
             if(!isSousCategorie) return res.status(400).json({message : "Cette sous catégorie n'existe pas !"});
             const {nom , description , categorieEvent} = req.body;
@@ -71,10 +69,9 @@ const SousCategorieService = {
     },
     deleteSousCategorie: async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth;
+            const user = req.user;
             const sousCategorieId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisée !"});
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisée !"});
             const isSousCategorie = await prisma.sousCategorie.findFirst({where : {id : Number(sousCategorieId)}})
             if(!isSousCategorie) return res.status(400).json({message : "Cette sous catégorie n'existe pas !"})
             const deleteSousCategorie = await prisma.sousCategorie.delete({where : {id : Number(sousCategorieId)}})

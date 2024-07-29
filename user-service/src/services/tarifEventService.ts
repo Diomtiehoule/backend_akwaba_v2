@@ -3,9 +3,8 @@ import prisma from "../utils/prisma.config";
 const TarifEventService = {
     createTarifEvent : async (req : any , res : any , next : any) =>{
         try{
-            const {userId} = req.auth;
-            const isAdmin = await prisma.admin.findFirst({where : { id : userId}})
-            if(!isAdmin)return res.status(400).json({message : "Action non-autorisée !"})
+            const user = req.user;
+            if(user.role_id === 1)return res.status(400).json({message : "Action non-autorisée !"})
             const {typeTarif , prix , event} =req.body;
             if(typeTarif == "" || prix == 0 || event=="")return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const isEvent = await prisma.event.findFirst({where : {nom : event}})
@@ -57,10 +56,9 @@ const TarifEventService = {
     },
     editTarifEvent : async (req : any , res : any , next : any) =>{
         try {
-            const {userId} = req.auth;
+            const user = req.user;
             const tarifId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}});
-            if(!isAdmin)return res.status(400).json({message : "Action non-autorisé !"});
+            if(user.role_id)return res.status(400).json({message : "Action non-autorisé !"});
             const isTarif = await prisma.tarifEvent.findFirst({where : {id : Number(tarifId)}});
             if(!isTarif) return res.status(400).json({message : "Cet tarif n'existe pas !"});
             const {typeTarif , prix , event} = req.body;
@@ -77,10 +75,9 @@ const TarifEventService = {
     },
     deleteTarifEvent : async (req : any , res : any , next : any) =>{
         try {
-            const {userId} = req.auth
+            const user = req.user
             const tarifId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}});
-            if(!isAdmin)return res.status(400).json({message : "Action non-autorisée !"})
+            if(user.role_id === 1)return res.status(400).json({message : "Action non-autorisée !"})
             const isTarif = await prisma.tarifEvent.findFirst({where : {id : Number(tarifId)}})
             if(!isTarif) return res.status(400).json({message : "Ce tarif n'existe pas !"})
             const deleteTarif = await prisma.tarifEvent.delete({where : {id : Number(tarifId)}})
