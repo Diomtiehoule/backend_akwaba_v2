@@ -4,6 +4,7 @@ const packageService = {
     getAllPackage : async (req : any , res : any , next : any) => {
         try {
            const response = await axios.get("https://ivoiretravel.ci/api/get-all-offers")
+           if(!response.data)return res.status(400).json({message : "La liste est vide"})
            res.status(200).json({message : "La liste de package..." , data : response.data})
         } catch (error : any) {
             console.log(`l'erreur : ${error}`)
