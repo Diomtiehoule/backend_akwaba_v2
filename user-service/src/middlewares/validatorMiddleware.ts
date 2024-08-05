@@ -1,14 +1,15 @@
-import { Response , Request , NextFunction } from "express";
-import { validationResult } from "express-validator"
+import { Request , Response , NextFunction } from "express";
+import { ZodSchema } from "zod";
 
-export const validatorMiddleware = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) =>{
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
+function validateSchema(schema : ZodSchema){
+    return (req : Request , res : Response , next : NextFunction) => {
+        try {
+            schema.parse(req.body);
+            next();
+        } catch (error : any) {
+            res.status(400).json({errors : error.errors})
+        }
     }
-    next();
 }
+
+export default validateSchema;

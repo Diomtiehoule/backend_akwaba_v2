@@ -1,4 +1,6 @@
 import TarifEventService from "../services/tarifEventService";
+import { createTypeTarifSchema , updateTypeTarifSchema } from "../schema/tarifEventSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import auth from "../middlewares/authMiddleware";
 import { Router } from "express";
 
@@ -356,10 +358,10 @@ const tarifEventRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-tarifEventRoute.post('/createTarif' , auth ,TarifEventService.createTarifEvent);
+tarifEventRoute.post('/createTarif' , auth , validateSchema(createTypeTarifSchema) ,TarifEventService.createTarifEvent);
 tarifEventRoute.get('/getTarif' , TarifEventService.getTarifEventById);
 tarifEventRoute.get('/getAllTarif' , TarifEventService.getAllTarifEvent);
-tarifEventRoute.put('/editTarif' , auth , TarifEventService.editTarifEvent);
+tarifEventRoute.put('/editTarif' , auth ,validateSchema(updateTypeTarifSchema) , TarifEventService.editTarifEvent);
 tarifEventRoute.delete('/deleteTarif' , auth , TarifEventService.deleteTarifEvent);
 
 export default tarifEventRoute;

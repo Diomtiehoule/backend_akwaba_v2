@@ -10,7 +10,7 @@ const EventService = {
             const eventExist = await prisma.event.findFirst({where : {nom , description , lieu , dateDebut , dateFin}})
             if(eventExist)return res.status(400).json({message : "Ce évènement a déjà été enregistré"})
             const type = await prisma.type.findFirst({where : {typeEvent}})
-            if(!type)return res.status(400).json({message : "Ce type d'évènement n'existe pas"});
+            if(!type)return res.status(404).json({message : "Ce type d'évènement n'existe pas"});
             const newEvent = await prisma.event.create({data : {nom , description ,dateDebut , dateFin , lieu, typeEvent , typeId : type.id}})
             const data = {nom : newEvent.nom,description : newEvent.description,lieu : newEvent.lieu,dateDebut : newEvent.dateDebut , dateFin : newEvent.dateFin,typeEvent : newEvent.typeEvent,}
             return res.status(201).json({message : "Evènement créé avec succès !" , data});
@@ -43,6 +43,45 @@ const EventService = {
         } catch (error: any) {
             console.log(`votre erreur : ${error}`)
             res.status(500).json({message : "Une erreur s'est produite lors du traitement !!!"});
+        }
+    },
+    getAllInfoEvent : async (req : any , res : any , next : any) => {
+        try{
+            const eventId = req.query.id;
+            const isEvent = await prisma.event.findUnique({where : {id : Number(eventId)}});
+            if(!isEvent)return res.status(404).json({message : "Aucun evenement trouvé !"});
+            const eventData = {nom : isEvent.nom,
+                description : isEvent.description,
+                lieu : isEvent.lieu,
+                dateDebut : isEvent.dateDebut ,
+                dateFin: isEvent.dateFin,
+                typeEvent : isEvent.typeEvent,}
+            const allProgrammme = await prisma.programme.findMany({where : {evenement : isEvent.nom}})
+            const programmeId = allProgrammme.map(allProgramme => allProgramme.id);
+
+            let allLignProgramme = []
+            for(let i = 0 ; i < programmeId.length ; i++){
+                const lign =  await prisma.programme.findUnique({where : {id : programmeId[i]}});
+                allLignProgramme.push(lign)
+            }
+            
+            const allAdresse = await prisma.adresse.findMany({where : {evenement : isEvent.nom}})
+            const allTarif = await prisma.tarifEvent.findMany({where : {event : isEvent.nom}})
+            const eventCategorie = await prisma.eventCategorie.findMany({where : {eventId : Number(eventId)}})
+            if(eventCategorie.length === 0)return res.status(404).json({message : "vide"});
+            const allCategorie = eventCategorie.map(eventCategorie => eventCategorie.categorie) 
+            const allDataEvent = {
+                evenement : eventData,
+                categorie : allCategorie,
+                programme : allProgrammme,
+                lignProgramme : allLignProgramme,
+                adresse : allAdresse,
+                tarif : allTarif
+            }
+            res.status(200).json({message : 'Evenement trouvé...' , allDataEvent});
+        }catch(error : any){
+            console.log(`L'erreur : ${error}`)
+            res.status(500).json({message : "Une erreur s'est produite lors du traitement !!!"})
         }
     },
     editEvent : async (req: any, res: any, next: any) => {

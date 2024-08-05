@@ -8,7 +8,20 @@ const swaggerSpec = swaggerJSDoc({
             title : "AKWABA SERVICE API",
             version : "1.0.0",
             description :"documentation des api projet akwaba ",
+        },
+        components: {
+            securitySchema:{
+                BearerAuth:{
+                    type : 'http',
+                    schema : 'bearer',
+                    bearerFormat : "JWT"
+                }
+            }
+        },
+        security:{
+            BearerAuth : []
         }
+        
     },
     apis: [
         "src/controllers/*.ts",

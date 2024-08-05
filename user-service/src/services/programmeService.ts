@@ -3,9 +3,8 @@ import prisma from "../utils/prisma.config";
 const programmeService = {
     createProgramme : async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth;
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin)return res.status(401).json({message : "Action non-autorisée !"})
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"});
             const {programme , evenement } = req.body;
             if(programme == '' || evenement == '') return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const isEvent = await prisma.event.findFirst({where : {nom : evenement} })

@@ -1,5 +1,7 @@
 import EventService from "../services/eventService";
 import auth from "../middlewares/authMiddleware";
+import { createEventSchema , updateEventSchema } from "../schema/eventSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import { Router } from "express";
 
 const eventRoute = Router();
@@ -422,10 +424,11 @@ const eventRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-eventRoute.post('/createEvent' , auth , EventService.createEvent);
-eventRoute.get('/getAllEvent' , auth , EventService.getAllEvents);
-eventRoute.get('/getEvent' , auth , EventService.getEventById);
-eventRoute.put('/editEvent' , auth , EventService.editEvent);
+eventRoute.post('/createEvent' , auth ,validateSchema(createEventSchema), EventService.createEvent);
+eventRoute.get('/getAllEvent' , EventService.getAllEvents);
+eventRoute.get('/getEvent' ,  EventService.getEventById);
+eventRoute.get('/getAllInfoEvent' , EventService.getAllInfoEvent);
+eventRoute.put('/editEvent' , auth , validateSchema(updateEventSchema), EventService.editEvent);
 eventRoute.delete('/deleteEvent' , auth , EventService.deleteEvent);
 
 

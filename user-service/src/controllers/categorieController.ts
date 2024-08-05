@@ -1,4 +1,6 @@
 import CategorieService from "../services/categorieService";
+import { createCategorieSchema , updateCategorieSchema } from "../schema/categorieSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import { Router } from "express";
 import auth from "../middlewares/authMiddleware";
 const categorieRoute = Router()
@@ -334,10 +336,10 @@ const categorieRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-categorieRoute.post("/createCategorie" , auth , CategorieService.createCategorie);
+categorieRoute.post("/createCategorie" , auth ,validateSchema(createCategorieSchema) , CategorieService.createCategorie);
 categorieRoute.get('/getCategorie' , CategorieService.getCategorieById);
 categorieRoute.get('/getAllCategorie' ,CategorieService.getAllCategorie);
-categorieRoute.put('/editCategorie' , auth , CategorieService.editCategorie);
+categorieRoute.put('/editCategorie' , auth ,validateSchema(createCategorieSchema) , CategorieService.editCategorie);
 categorieRoute.delete('/deleteCategorie' , auth , CategorieService.deleteCategorie);
 
 export default categorieRoute;

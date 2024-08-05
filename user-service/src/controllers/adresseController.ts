@@ -1,5 +1,7 @@
 import adresseService from "../services/adresseService";
 import auth from "../middlewares/authMiddleware";
+import { createAdresseSchema , updateAdresseSchema } from "../schema/adresseSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import { Router } from "express";
 
 const adresseRoute = Router()
@@ -382,10 +384,10 @@ const adresseRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-adresseRoute.post('/createAdresse' , auth , adresseService.createAdresse);
+adresseRoute.post('/createAdresse' , auth ,validateSchema(createAdresseSchema), adresseService.createAdresse);
 adresseRoute.get('/getAdresse' , adresseService.getAdresse);
 adresseRoute.get('/getAllAdresse' , adresseService.getAllAdresse);
-adresseRoute.put('/editAdresse' , auth , adresseService.editAdresse);
+adresseRoute.put('/editAdresse' , auth ,validateSchema(createAdresseSchema), adresseService.editAdresse);
 adresseRoute.delete('/deleteAdresse' , auth , adresseService.deleteAdresse);
 
 export default adresseRoute;

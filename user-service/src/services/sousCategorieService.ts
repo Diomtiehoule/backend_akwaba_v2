@@ -42,7 +42,7 @@ const SousCategorieService = {
                 }
                 return info
             })
-            return res.status(200).json({message : "La lsite de tout les sous évènements !" , data})
+            return res.status(200).json({message : "La liste de tout les sous évènements !" , data})
         } catch (error : any) {
             res.status(500).json({message : "Une erreur s'est produite lors du traitement !"})
         }

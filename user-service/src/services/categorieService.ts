@@ -40,28 +40,36 @@ const CategorieService = {
         }
     },
     getAllCategorie: async (req : any , res : any , next : any) => {
-        const allCategories = await prisma.categorie.findMany();
-        if(allCategories.length === 0) return res.status(400).json({message : "La liste de catégorie est vide !"})
-        const dataClone = allCategories.map(categorie =>{
-            const data = {
-                id : categorie.id,
-                nom : categorie.nom,
-                description : categorie.description
-            }
-            return data
-        })
-        return res.status(200).json({message : "La liste des catégories..." , dataClone})
+        try {
+            const allCategories = await prisma.categorie.findMany();
+            if(allCategories.length === 0) return res.status(400).json({message : "La liste de catégorie est vide !"})
+            const dataClone = allCategories.map(categorie =>{
+                const data = {
+                    id : categorie.id,
+                    nom : categorie.nom,
+                    description : categorie.description
+                }
+                return data
+            })
+            return res.status(200).json({message : "La liste des catégories..." , dataClone})
+        } catch (error : any) {
+            console.log(`L'erreur : ${error}`)
+        }
     },
     getCategorieById: async (req : any , res : any , next : any) => {
-        const categorieId = req.query.id;
-        const iscategorie = await prisma.categorie.findFirst({where : {id : Number(categorieId)}})
-        if(!iscategorie) return res.status(400).json({message : "Cette catégorie n'existe pas !"})
-        const data = {
-            id : iscategorie.id,
-            nom : iscategorie.nom,
-            description : iscategorie.description
-        };
-        return res.status(200).json({message : "Catégorie trouvé !", data})
+        try {
+            const categorieId = req.query.id;
+            const iscategorie = await prisma.categorie.findFirst({where : {id : Number(categorieId)}})
+            if(!iscategorie) return res.status(400).json({message : "Cette catégorie n'existe pas !"})
+            const data = {
+                id : iscategorie.id,
+                nom : iscategorie.nom,
+                description : iscategorie.description
+            };
+            return res.status(200).json({message : "Catégorie trouvé !", data})
+        } catch (error : any) {
+            console.log(`L'erreur: ${error}`);
+        }
         
     },
     deleteCategorie: async (req : any , res : any , next : any) => {

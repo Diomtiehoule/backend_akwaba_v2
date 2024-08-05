@@ -4,9 +4,8 @@ import { PrismaClient } from "@prisma/client";
 const lignProgrammeService = {
     createLignProgramme: async (req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisée !"})
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"});
             const {libelle , description , dateDebut , dateFin , heureDebut , heureFin , programme} = req.body
             if(libelle =="" || description =="" || dateDebut =="" || dateFin =="" || heureDebut =="" || heureFin=="" || programme=="") return res.status(400).json({message : "Veuillez remplir tout les champs !"})
             const isProgramme = await prisma.programme.findFirst({where : {programme : programme}})
@@ -66,10 +65,9 @@ const lignProgrammeService = {
     },
     editLignProgramme: async(req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"});
             const lignProgrammeId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autorisée !"})
             const lignProgrammeExist = await prisma.lignProgramme.findFirst({where : {id : Number(lignProgrammeId)}})
             if(!lignProgrammeExist)return res.status(400).json({message : "Cette lignProgramme n'existe pas !"})
             const {libelle , description , dateDebut , dateFin , heureDebut , heureFin , programme} = req.body
@@ -87,10 +85,9 @@ const lignProgrammeService = {
     },
     deleteLignProgramme: async(req : any , res : any , next : any) => {
         try {
-            const {userId} = req.auth
+            const user = req.user
+            if(user.role_id === 1) return res.status(401).json({message : "Action non-autorisé !"});
             const lignProgrammeId = req.query.id
-            const isAdmin = await prisma.admin.findFirst({where : {id : userId}})
-            if(!isAdmin) return res.status(401).json({message : "Action non-autoris"})
             const lignProgrammeExist = await prisma.lignProgramme.findFirst({where : {id : Number(lignProgrammeId)}})
             if(!lignProgrammeExist)return res.status(400).json({message : "Cette lignProgramme n'existe pas !"})
             const deleteLignProgramme = await prisma.lignProgramme.delete({where : {id : Number(lignProgrammeId)}})

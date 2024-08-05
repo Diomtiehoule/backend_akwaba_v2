@@ -1,4 +1,6 @@
 import lignProgrammeService from "../services/lignProgrammeService";
+import { createLignProgrammeSchema , updateLignProgrammeSchema } from "../schema/lignProgrammeSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import auth from "../middlewares/authMiddleware";
 import { Router } from "express";
 
@@ -387,10 +389,10 @@ const lignProgrammeRoute= Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-lignProgrammeRoute.post('/createLignProgramme' , auth , lignProgrammeService.createLignProgramme);
+lignProgrammeRoute.post('/createLignProgramme' , auth , validateSchema(createLignProgrammeSchema) , lignProgrammeService.createLignProgramme);
 lignProgrammeRoute.get('/getLignProgramme' , lignProgrammeService.getLignProgramme);
 lignProgrammeRoute.get('/getAllLignProgramme' , lignProgrammeService.getAllLignProgramme);
-lignProgrammeRoute.put('/editLignProgramme' , auth , lignProgrammeService.editLignProgramme);
+lignProgrammeRoute.put('/editLignProgramme' , auth ,validateSchema(updateLignProgrammeSchema) , lignProgrammeService.editLignProgramme);
 lignProgrammeRoute.delete('/deleteLignProgramme' , auth , lignProgrammeService.deleteLignProgramme);
 
 export default lignProgrammeRoute;

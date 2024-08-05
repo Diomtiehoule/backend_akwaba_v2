@@ -1,4 +1,6 @@
 import programmeService from "../services/programmeService";
+import { createProgrammeSchema, updateProgrammeSchema } from "../schema/programmeSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import auth from "../middlewares/authMiddleware";
 import { Router } from "express";
 
@@ -336,10 +338,10 @@ const programmeRoute = Router()
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
 
-programmeRoute.post('/createProgramme' , auth , programmeService.createProgramme);
+programmeRoute.post('/createProgramme' , auth ,validateSchema(createProgrammeSchema) , programmeService.createProgramme);
 programmeRoute.get('/getProgramme' , programmeService.getProgramme);
 programmeRoute.get('/getAllProgramme' , programmeService.getAllProgramme);
-programmeRoute.put('/editProgramme' , auth , programmeService.editProgramme);
+programmeRoute.put('/editProgramme' , auth ,validateSchema(updateProgrammeSchema) , programmeService.editProgramme);
 programmeRoute.delete('/deleteProgramme' , auth , programmeService.deleteProgramme);
 
 export default programmeRoute;

@@ -1,5 +1,7 @@
 import TypeService from "../services/typeService";
 import auth from "../middlewares/authMiddleware";
+import { createTypeSchema , updateTypeSchema } from "../schema/typeSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import { Router } from "express";
 
 const typeRoute = Router()
@@ -334,7 +336,7 @@ const typeRoute = Router()
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-typeRoute.post('/createType' , auth, TypeService.createType);
+typeRoute.post('/createType' , auth, validateSchema(createTypeSchema), TypeService.createType);
 typeRoute.get('/getType' , TypeService.getTypeById);
 typeRoute.get('/getAllType' , TypeService.getAllType);
 typeRoute.put('/editType' , auth , TypeService.editType);

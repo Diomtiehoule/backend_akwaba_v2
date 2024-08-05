@@ -1,5 +1,7 @@
 import { Router } from "express";
 import SousCategorieService from "../services/sousCategorieService";
+import { createSousCategorieSchema, updateSousCategorieSchema } from "../schema/sousCategorieSchema";
+import validateSchema from "../middlewares/validatorMiddleware";
 import auth from "../middlewares/authMiddleware";
 
 const sousCategorieRoute = Router();
@@ -334,10 +336,10 @@ const sousCategorieRoute = Router();
  *                   type: string
  *                   example: "Une erreur s'est produite lors du traitement !!!"
  */
-sousCategorieRoute.post('/createSousCategorie' , auth , SousCategorieService.createSousCategorie);
-sousCategorieRoute.get('/getSousCategorie' , auth , SousCategorieService.getSousCategorieById);
-sousCategorieRoute.get('/getAllSousCategorie' , auth , SousCategorieService.getAllSousCategorie);
-sousCategorieRoute.put('/editSousCategorie' , auth , SousCategorieService.editSousCategorie);
+sousCategorieRoute.post('/createSousCategorie' , auth ,validateSchema(createSousCategorieSchema), SousCategorieService.createSousCategorie);
+sousCategorieRoute.get('/getSousCategorie' , SousCategorieService.getSousCategorieById);
+sousCategorieRoute.get('/getAllSousCategorie' , SousCategorieService.getAllSousCategorie);
+sousCategorieRoute.put('/editSousCategorie' , auth ,validateSchema(updateSousCategorieSchema), SousCategorieService.editSousCategorie);
 sousCategorieRoute.delete('/deleteSousCategorie' , auth , SousCategorieService.deleteSousCategorie);
 
 export default sousCategorieRoute;
