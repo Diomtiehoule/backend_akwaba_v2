@@ -70,9 +70,17 @@ const EventService = {
             const eventCategorie = await prisma.eventCategorie.findMany({where : {eventId : Number(eventId)}})
             if(eventCategorie.length === 0)return res.status(404).json({message : "vide"});
             const allCategorie = eventCategorie.map(eventCategorie => eventCategorie.categorie) 
+
+            let allSousCategorie = [];
+            for(let i = 0 ; i < allCategorie.length ; i++){
+                const sousCategorie = await prisma.sousCategorie.findMany({where : {categorieEvent : allCategorie[i]}});
+                allSousCategorie.push(sousCategorie)
+            }
+            console.log("toute les sous categorie :" , allSousCategorie)
             const allDataEvent = {
                 evenement : eventData,
                 categorie : allCategorie,
+                sousCategorie : allSousCategorie,
                 programme : allProgrammme,
                 lignProgramme : allLignProgramme,
                 adresse : allAdresse,
@@ -81,6 +89,53 @@ const EventService = {
             res.status(200).json({message : 'Evenement trouvé...' , allDataEvent});
         }catch(error : any){
             console.log(`L'erreur : ${error}`)
+            res.status(500).json({message : "Une erreur s'est produite lors du traitement !!!"})
+        }
+    },
+    getEventByType : async (req : any , res : any , next : any) => {
+        try {
+            const type = req.query.type;    
+            const event = await prisma.event.findMany({where : {typeEvent : type}})
+            if(event.length === 0)return res.status(404).json({message : "Aucune liste d'évènement trouvé"});
+            const allDataEvent = event.map(event => {
+                const info = {
+                    id : event.id,
+                    nom : event.nom,
+                    description : event.description,
+                    lieu : event.lieu,
+                    dateDebut : event.dateDebut,
+                    dateFin : event.dateFin,
+                    typeEvent : event.typeEvent
+                }
+                return info
+                
+            })
+            res.status(200).json({message : "La liste des évenement associé au type..." , allDataEvent});
+        } catch (error : any) {
+            console.log(`L'erreur ${error}`)
+            res.status(500).json({message : "Une erreur s'est produite lors du traitement !!!"})
+        }
+    },
+    getEventByLocation : async (req : any , res : any , next : any) => {
+        try {
+            const lieu = req.query.lieu;
+            const event = await prisma.event.findMany({where : {lieu : lieu}})
+            if(event.length === 0)return res.status(404).json({message : "Aucune liste d'évènement trouvé"});
+            const allDataEvent = event.map(event => {
+                const info = {
+                    id : event.id,
+                    nom : event.nom,
+                    description : event.description,
+                    lieu : event.lieu,
+                    dateDebut : event.dateDebut,
+                    dateFin : event.dateFin,
+                    typeEvent : event.typeEvent
+                }
+                return info;
+            })
+            res.status(200).json({message : "La liste des évenement associé au lieu..." , allDataEvent});
+        } catch (error : any) {
+            console.log(`L'erreur ${error}`)
             res.status(500).json({message : "Une erreur s'est produite lors du traitement !!!"})
         }
     },

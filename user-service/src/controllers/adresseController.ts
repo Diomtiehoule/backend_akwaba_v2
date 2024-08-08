@@ -38,21 +38,22 @@ const adresseRoute = Router()
  *               adresse:
  *                 type: string
  *                 description: Adresse évènement.
- *                 example: "port bouet 2"
+ *                 example: "string"
  *               longitude:
  *                 type: number
  *                 description: longitude .
- *                 exmple: 125.2
- *               largitude:
+ *                 example: 0
+ *               latitude:
  *                 type: number
- *                 description: largitude.
+ *                 description: latitude.
  *               evenement:
  *                 type: string
  *                 description: Evenement associé à l'adresse.
+ *                 example: 0
  *             required:
  *               - adresse
  *               - longitude
- *               - largitude
+ *               - latitude
  *               - evenement
  *     responses:
  *       '200':
@@ -65,39 +66,6 @@ const adresseRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Adresse créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de l'adresse.
- *                       example: 1
- *                     adresse:
- *                       type: string
- *                       description: adresse.
- *                       example: "port bouet 2"
- *                     longitude:
- *                       type: number
- *                       description: Longitude.
- *                       example: 200.3
- *                     largitude:
- *                       type: number
- *                       description: Largitude.
- *                       example: 100.3
- *                     evenement:
- *                       type: string
- *                       description: Evenement
- *                       example: "festival"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -151,20 +119,20 @@ const adresseRoute = Router()
  *                     adresse:
  *                       type: string
  *                       description: adresse de l'évènement.
- *                       example: "port bouet 2"
+ *                       example: "string"
  *                     longitude:
  *                       type: number
  *                       description: Longitude de l'adresse.
- *                       example: 200.3
- *                     largitude:
+ *                       example: 0
+ *                     latitude:
  *                       type: number
- *                       description: Largitude de l'adresse.
- *                       example: 100.3
+ *                       description: latitude de l'adresse.
+ *                       example: 0
  *                     evenement:
  *                       type: string
  *                       description: L'évènement associé à l'adresse.
- *                       example: "festival"
- *       '400':
+ *                       example: "string"
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -211,21 +179,21 @@ const adresseRoute = Router()
  *                     adresse:
  *                       type: string
  *                       description: adresse de l'évènement.
- *                       example: "port bouet 2"
+ *                       example: "string"
  *                     longitude:
  *                       type: number
  *                       description: Longitude de l'adresse.
- *                       example: 200.3
- *                     largitude:
+ *                       example: 0
+ *                     latitude:
  *                       type: number
- *                       description: Largitude de l'adresse.
- *                       example: 100.3
+ *                       description: latitude de l'adresse.
+ *                       example: 0
  *                     evenement:
  *                       type: string
  *                       description: L'évènement associé à l'adresse.
- *                       example: "festival"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -269,23 +237,23 @@ const adresseRoute = Router()
  *               adresse:
  *                 type: string
  *                 description: Adresse évènement.
- *                 example: "marocry INJS"
+ *                 example: "string"
  *               longitude:
  *                 type: number
  *                 description: longitude.
- *                 example: 650.8
- *               largitude:
+ *                 example: 0
+ *               latitude:
  *                 type: number
- *                 description: largitude.
- *                 example: 875.21
+ *                 description: latitude.
+ *                 example: 0
  *               evenement:
  *                 type: string
  *                 description: Evenement associé à l'adresse.
- *                 example: "Tournoi"
+ *                 example: "string"
  *             required:
  *               - adresse
  *               - longitude
- *               - largitude
+ *               - latitude
  *               - evenement
  *     responses:
  *       '200':
@@ -298,16 +266,6 @@ const adresseRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -353,7 +311,7 @@ const adresseRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
+ *       '404':
  *         description: Adresse introuvable.
  *         content:
  *           application/json:

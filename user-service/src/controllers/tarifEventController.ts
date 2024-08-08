@@ -32,15 +32,15 @@ const tarifEventRoute = Router()
  *               nom:
  *                 type: string
  *                 description: nom du tarif.
- *                 example: "VIP"
+ *                 example: "string"
  *               prix:
  *                 type: number
  *                 description: le prix du tarif .
- *                 example: 25000
+ *                 example: 0
  *               event:
  *                 type: string
  *                 description: Evènement associé au tarif.
- *                 example: "MASSA"
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
@@ -56,35 +56,6 @@ const tarifEventRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "tarif créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id du tarif.
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       description: nom du tarif.
- *                       example: "MASSA"
- *                     prix:
- *                       type: number
- *                       description: prix du tarif.
- *                       example: 25000
- *                     event:
- *                       type: string
- *                       description: Evènement associé au tarif .
- *                       exmple: "MASSA"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -138,16 +109,16 @@ const tarifEventRoute = Router()
  *                     nom:
  *                       type: string
  *                       description: nom du tarif.
- *                       example: "VIP"
+ *                       example: "string"
  *                     prix:
  *                       type: number
  *                       description: le prix du tarif.
- *                       example: 2500
+ *                       example: 0
  *                     event:
  *                       type: string
  *                       description: Evènement associé au tarif.
- *                       example: "MASSA"
- *       '400':
+ *                       example: "string"
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -194,17 +165,17 @@ const tarifEventRoute = Router()
  *                     nom:
  *                       type: string
  *                       description: nom du tarif.
- *                       example: "VIP"
+ *                       example: "string"
  *                     prix:
  *                       type: number
  *                       description: prix du tarif.
- *                       example: 25000
+ *                       example: 0
  *                     event:
  *                       type: string
  *                       description: Evènement associé au tarif.
- *                       example: "MASSA"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -248,15 +219,15 @@ const tarifEventRoute = Router()
  *               nom:
  *                 type: string
  *                 description: le nom du tarif.
- *                 example: "VIP"
+ *                 example: "string"
  *               prix:
  *                 type: number
  *                 description: le prix du tarif.
- *                 example: 25000
+ *                 example: 0
  *               event:
  *                 type: string
  *                 description: évènement associé au tarif.
- *                 example: "MASSA"
+ *                 example: "string"
  *             required:
  *               - typeTarif
  *               - prix
@@ -272,16 +243,6 @@ const tarifEventRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -327,16 +288,6 @@ const tarifEventRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
- *         description: tarif introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Ce tarif n'existe pas !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -347,6 +298,16 @@ const tarifEventRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Accès non-autorisé !"
+ *       '404':
+ *         description: tarif introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Ce tarif n'existe pas !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:

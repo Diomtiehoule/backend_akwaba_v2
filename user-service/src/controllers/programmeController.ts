@@ -32,11 +32,11 @@ const programmeRoute = Router()
  *               programme:
  *                 type: string
  *                 description: programme de l'évènement.
- *                 example: "Concert"
+ *                 example: "string"
  *               evenement:
  *                 type: string
  *                 description: 2vènement associé au programme .
- *                 example: "massa"
+ *                 example: "string"
  *             required:
  *               - programme
  *               - evenement
@@ -51,31 +51,6 @@ const programmeRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "programme créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id du programme.
- *                       example: 1
- *                     programme:
- *                       type: string
- *                       description: nom du programme.
- *                       example: "concert"
- *                     evenement:
- *                       type: string
- *                       description: evenement associé au programme.
- *                       example: "massa"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -129,13 +104,13 @@ const programmeRoute = Router()
  *                     programme:
  *                       type: string
  *                       description: programme de l'évènement.
- *                       example: "concert"
+ *                       example: "string"
  *                     evenement:
  *                       type: number
  *                       description: evènement associé au programme.
- *                       example: "massa"
+ *                       example: "string"
  * 
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -182,13 +157,13 @@ const programmeRoute = Router()
  *                     programme:
  *                       type: string
  *                       description: programme de l'évènement.
- *                       example: "concert"
+ *                       example: "string"
  *                     evenement:
  *                       type: string
  *                       description: evenement associé au programme.
- *                       example: "massa"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -232,11 +207,11 @@ const programmeRoute = Router()
  *               prgramme:
  *                 type: string
  *                 description: programme de l'évènement.
- *                 example: "défiler"
+ *                 example: "string"
  *               evenement:
  *                 type: string
  *                 description: evenement associé au programme.
- *                 example: "massa"
+ *                 example: "string"
  *             required:
  *               - programme
  *               - evenement
@@ -251,16 +226,6 @@ const programmeRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -306,16 +271,6 @@ const programmeRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
- *         description: programme introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Ce programme n'existe !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -326,6 +281,16 @@ const programmeRoute = Router()
  *                 message:
  *                   type: string
  *                   example: "Accès non-autorisé !"
+ *       '404':
+ *         description: programme introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Ce programme n'existe !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:

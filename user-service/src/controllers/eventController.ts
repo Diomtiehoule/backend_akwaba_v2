@@ -32,27 +32,27 @@ const eventRoute = Router();
  *               nom:
  *                 type: string
  *                 description: nom de l'évènement.
- *                 example: "MASSA"
+ *                 example: "string"
  *               description:
  *                 type: string
  *                 description: description de l'évènement .
- *                 exmple: "Evènement culturel"
+ *                 exmple: "string"
  *               lieu:
  *                 type: string
  *                 description: lieu de l'évènement.
- *                 example: "Abidjan"
+ *                 example: "string"
  *               dateDebut:
  *                 type: string
  *                 description: date de debut de l'évènement.
- *                 example: "2024-10-25"
+ *                 example: "string"
  *               dateFin:
  *                 type: string
  *                 description: date de fin de l'évènement.
- *                 example: "2024-10-30"
+ *                 example: "string"
  *               typeEvent:
  *                 type: string
  *                 description: type de l'évènement.
- *                 example: "culturel"
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
@@ -71,47 +71,6 @@ const eventRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Adresse créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de l'adresse.
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       description: nom de l'évènement.
- *                       example: "MASSA"
- *                     description:
- *                       type: string
- *                       description: description de l'évènement .
- *                       exmple: "Evènement culturel"
- *                     lieu:
- *                       type: string
- *                       description: lieu de l'évènement.
- *                       example: "Abidjan"
- *                     dateDebut:
- *                       type: string
- *                       description: date de debut de l'évènement.
- *                       example: "2024-10-25"
- *                     dateFin:
- *                       type: string
- *                       description: date de fin de l'évènement.
- *                       example: "2024-10-30"
- *                     typeEvent:
- *                       type: string
- *                       description: type de l'évènement.
- *                       example: "culturel"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -165,28 +124,176 @@ const eventRoute = Router();
  *                     nom:
  *                       type: string
  *                       description: nom de l'évènement.
- *                       example: "MASSA"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description de l'évènement.
- *                       example: "évènement culturel"
+ *                       example: "string"
  *                     lieu:
  *                       type: string
  *                       description: lieu de l'évènement.
- *                       example: "Abidjan"
+ *                       example: "string"
  *                     dateDebut:
  *                       type: string
  *                       description: date de debut de l'évènement.
- *                       example: "2024-02-15"
+ *                       example: "string"
  *                     dateFin:
  *                       type: string
  *                       description: date de fin de l'évènement.
- *                       example: "2024-02-18"
+ *                       example: "string"
  *                     typeEvent:
  *                       type: string
  *                       description: type de l'évènement.
- *                       example: "Culturel"
- *       '400':
+ *                       example: "string"
+ *       '404':
+ *         description: Erreur lors de la récupération.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Aucun évènement trouvé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
+ * /event/getEventByType:
+ *   get:
+ *     summary: Obtenir un évènement
+ *     description: Récuperer l'évènement.
+ *     parameters:
+ *          - name: type
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
+ *     tags: [Event]
+ *     responses:
+ *       '200':
+ *         description: Les évènements correspondant au type.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "L'évènement trouvé "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de l'évènement.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de l'évènement.
+ *                       example: "string"
+ *                     description:
+ *                       type: string
+ *                       description: description de l'évènement.
+ *                       example: "string"
+ *                     lieu:
+ *                       type: string
+ *                       description: lieu de l'évènement.
+ *                       example: "string"
+ *                     dateDebut:
+ *                       type: string
+ *                       description: date de debut de l'évènement.
+ *                       example: "string"
+ *                     dateFin:
+ *                       type: string
+ *                       description: date de fin de l'évènement.
+ *                       example: "string"
+ *                     typeEvent:
+ *                       type: string
+ *                       description: type de l'évènement.
+ *                       example: "string"
+ *       '404':
+ *         description: Erreur lors de la récupération.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Aucun évènement trouvé !"
+ *       '500':
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Une erreur s'est produite lors du traitement !!!"
+ * 
+ * /event/getEventByLocation:
+ *   get:
+ *     summary: Obtenir un évènement
+ *     description: Récuperer l'évènement.
+ *     parameters:
+ *          - name: lieu
+ *            in: query
+ *            required: true
+ *            scheme: 
+ *              type: integer
+ *     tags: [Event]
+ *     responses:
+ *       '200':
+ *         description: Les évènements correspondant au lieu.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "L'évènement trouvé "
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       description: id de l'évènement.
+ *                       example: 1
+ *                     nom:
+ *                       type: string
+ *                       description: nom de l'évènement.
+ *                       example: "string"
+ *                     description:
+ *                       type: string
+ *                       description: description de l'évènement.
+ *                       example: "string"
+ *                     lieu:
+ *                       type: string
+ *                       description: lieu de l'évènement.
+ *                       example: "string"
+ *                     dateDebut:
+ *                       type: string
+ *                       description: date de debut de l'évènement.
+ *                       example: "string"
+ *                     dateFin:
+ *                       type: string
+ *                       description: date de fin de l'évènement.
+ *                       example: "string"
+ *                     typeEvent:
+ *                       type: string
+ *                       description: type de l'évènement.
+ *                       example: "string"
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -233,29 +340,29 @@ const eventRoute = Router();
  *                     nom:
  *                       type: string
  *                       description: nom de l'évènement.
- *                       example: "Festival"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description de l'évènement.
- *                       example: "Festival des grillardes"
+ *                       example: "string"
  *                     lieu:
  *                       type: string
  *                       description: Le lieu de l'évènement.
- *                       example: "Abidjan"
+ *                       example: "string"
  *                     dateDebut:
  *                       type: string
  *                       description: date de début de l'évènement.
- *                       example: "2023-02-15"
+ *                       example: "string"
  *                     dateFin:
  *                       type: string
  *                       description: date de fin de l'évènement.
- *                       example: "2023-02-18"
+ *                       example: "string"
  *                     typeEvent:
  *                       type: string
  *                       description: le type d'évènement.
- *                       example: "vacance"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -299,27 +406,27 @@ const eventRoute = Router();
  *               nom:
  *                 type: string
  *                 description: Nom de l'évènement.
- *                 example: "Festival"
+ *                 example: "string"
  *               description:
  *                 type: string
  *                 description: description de l'évènement.
- *                 example: "Festival des grillarde"
+ *                 example: "string"
  *               lieu:
  *                 type: string
  *                 description: lieu del'évènement.
- *                 example: "Abidjan"
+ *                 example: "string"
  *               dateDebut:
  *                 type: string
  *                 description: date de debut de l'évènement.
- *                 example: "2023-02-13"
+ *                 example: "string"
  *               dateFin:
  *                 type: string
  *                 description: date de fin de l'évènement.
- *                 example: "2023-02-15"
+ *                 example: "string"
  *               typeEvent:
  *                 type: string
  *                 description: le type associé à l'évènement.
- *                 example: "vacance"
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
@@ -338,16 +445,6 @@ const eventRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -393,16 +490,6 @@ const eventRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
- *         description: Adresse introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cet évènement n'existe !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -413,6 +500,17 @@ const eventRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Accès non-autorisé !"
+ * 
+ *       '404':
+ *         description: Adresse introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Cet évènement n'existe !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -426,8 +524,10 @@ const eventRoute = Router();
  */
 eventRoute.post('/createEvent' , auth ,validateSchema(createEventSchema), EventService.createEvent);
 eventRoute.get('/getAllEvent' , EventService.getAllEvents);
-eventRoute.get('/getEvent' ,  EventService.getEventById);
-eventRoute.get('/getAllInfoEvent' , EventService.getAllInfoEvent);
+// eventRoute.get('/getEvent' ,  EventService.getEventById);
+eventRoute.get('/getEvent' , EventService.getAllInfoEvent);
+eventRoute.get('/getEventByType' , EventService.getEventByType);
+eventRoute.get('/getEventByLocation' , EventService.getEventByLocation);
 eventRoute.put('/editEvent' , auth , validateSchema(updateEventSchema), EventService.editEvent);
 eventRoute.delete('/deleteEvent' , auth , EventService.deleteEvent);
 

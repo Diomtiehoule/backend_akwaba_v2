@@ -32,11 +32,11 @@ const sousCategorieRoute = Router();
  *               nom:
  *                 type: string
  *                 description: nom de la sous-catégorie.
- *                 example: "football"
+ *                 example: "string"
  *               description:
  *                 type: string
  *                 description: description de la sous-catégorie .
- *                 example: "Affrontement des équipes 5 contre 5"
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
@@ -51,31 +51,6 @@ const sousCategorieRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "sous-catégorie créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de la sous-catégorie.
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       description: nom de la sous-catégorie.
- *                       example: "MASSA"
- *                     description:
- *                       type: string
- *                       description: description de la sous-catégorie .
- *                       exmple: "Affrontement des équipes 5 contre 5"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -129,12 +104,12 @@ const sousCategorieRoute = Router();
  *                     nom:
  *                       type: string
  *                       description: nom de la sous-catégorie.
- *                       example: "MASSA"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description de la sous-catégorie.
- *                       example: "Affrontement des équipes 5 contre 5"
- *       '400':
+ *                       example: "string"
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -181,13 +156,13 @@ const sousCategorieRoute = Router();
  *                     nom:
  *                       type: string
  *                       description: nom de l'évènement.
- *                       example: "football"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description de l'évènement.
- *                       example: "Affrontement des équuipes 5 contre 5"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -250,16 +225,6 @@ const sousCategorieRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -305,16 +270,6 @@ const sousCategorieRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
- *         description: sous-catégorie introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cette sous-categorie n'existe pas !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -325,6 +280,16 @@ const sousCategorieRoute = Router();
  *                 message:
  *                   type: string
  *                   example: "Accès non-autorisé !"
+ *       '404':
+ *         description: sous-catégorie introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Cette sous-categorie n'existe pas !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:

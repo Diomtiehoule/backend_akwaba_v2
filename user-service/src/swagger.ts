@@ -3,30 +3,31 @@ import swaggerJSDoc from "swagger-jsdoc";
 
 const swaggerSpec = swaggerJSDoc({
     definition: {
-        openapi:"3.0.0",
+        openapi: "3.0.0",
         info: {
-            title : "AKWABA SERVICE API",
-            version : "1.0.0",
-            description :"documentation des api projet akwaba ",
+            title: "AKWABA SERVICE API",
+            version: "1.0.0",
+            description: "Documentation des API du projet Akwaba",
         },
         components: {
-            securitySchema:{
-                BearerAuth:{
-                    type : 'http',
-                    schema : 'bearer',
-                    bearerFormat : "JWT"
-                }
-            }
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
         },
-        security:{
-            BearerAuth : []
-        }
-        
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
     },
     apis: [
         "src/controllers/*.ts",
-        "src/swagger.ts"
+        "src/swagger.ts",
     ],
-})
+});
 
 export default swaggerSpec

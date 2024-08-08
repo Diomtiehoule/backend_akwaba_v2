@@ -16,10 +16,10 @@ const categorieRoute = Router()
  * @swagger
  * /categorie/createCategorie:
  *   post:
- *     summary: Créer une adresse
+ *     summary: Créer une catégorie
  *     security:
- *          - bearerAuth: []
- *     description: Ajoute un nouvel événement dans la base de données.
+ *       - bearerAuth: []
+ *     description: Ajoute une nouvelle catégorie dans la base de données.
  *     tags: [Categorie]
  *     requestBody:
  *       required: true
@@ -30,18 +30,18 @@ const categorieRoute = Router()
  *             properties:
  *               nom:
  *                 type: string
- *                 description: Catégorie de l'évènement.
- *                 example: "Sport"
+ *                 description: Nom de la catégorie.
+ *                 example: "string"
  *               description:
  *                 type: string
- *                 description: description de la catégorie .
- *                 example: "activité sportive des moins de 20ans"
+ *                 description: Description de la catégorie.
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
  *     responses:
  *       '200':
- *         description: Catégorie créé.
+ *         description: Catégorie créée avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -49,34 +49,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Catégorie créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de la catégorie.
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       description: nom de la catégorie.
- *                       example: "jeunesse"
- *                     description:
- *                       type: string
- *                       description: description de la catégorie.
- *                       example: "catégorie dédié à la jeunesse"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
+ *                   example: "Catégorie créée avec succès !"
  *       '401':
- *         description: Erreur de token.
+ *         description: Erreur d'authentification.
  *         content:
  *           application/json:
  *             schema:
@@ -84,7 +59,7 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Accès non-autorisé !"
+ *                   example: "Accès non autorisé !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -94,18 +69,19 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Une erreur s'est produite lors du traitement !!!"
+ *                   example: "Une erreur s'est produite lors du traitement !"
  * 
  * /categorie/getCategorie:
  *   get:
  *     summary: Obtenir une catégorie
- *     description: Récuperer la catégorie.
+ *     description: Récupérer une catégorie par son ID.
  *     parameters:
- *          - name: id
- *            in: query
- *            required: true
- *            scheme: 
- *              type: integer
+ *       - name: id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: ID de la catégorie à récupérer.
  *     tags: [Categorie]
  *     responses:
  *       '200':
@@ -117,25 +93,24 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "La catégorie trouvée "
+ *                   example: "Catégorie trouvée !"
  *                 data:
  *                   type: object
  *                   properties:
  *                     id:
- *                       type: number
- *                       description: id de la catégorie.
+ *                       type: integer
+ *                       description: ID de la catégorie.
  *                       example: 1
  *                     nom:
  *                       type: string
- *                       description: categorie de l'évènement.
- *                       example: "jeunesse"
+ *                       description: Nom de la catégorie.
+ *                       example: "Jeunesse"
  *                     description:
- *                       type: number
- *                       description: description de la catégorie.
- *                       example: "catégorie dédié à la jeunesse"
- * 
- *       '400':
- *         description: Erreur lors de la récupération.
+ *                       type: string
+ *                       description: Description de la catégorie.
+ *                       example: "Catégorie dédiée à la jeunesse"
+ *       '404':
+ *         description: Catégorie introuvable.
  *         content:
  *           application/json:
  *             schema:
@@ -153,12 +128,12 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Une erreur s'est produite lors du traitement !!!"
+ *                   example: "Une erreur s'est produite lors du traitement !"
  * 
  * /categorie/getAllCategorie:
  *   get:
- *     summary: Obtenir la liste des catégories
- *     description: Récuperer toutes les catégories.
+ *     summary: Obtenir toutes les catégories
+ *     description: Récupérer la liste de toutes les catégories.
  *     tags: [Categorie]
  *     responses:
  *       '200':
@@ -170,25 +145,26 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "la liste des catégories "
+ *                   example: "Liste des catégories récupérée avec succès !"
  *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de la catégorie.
- *                       example: 1
- *                     nom:
- *                       type: string
- *                       description: catégorie de l'évènement.
- *                       example: "jeunesse"
- *                     description:
- *                       type: string
- *                       description: description de la catégorie.
- *                       example: "catégorie dédié à la jeunesse"
- *                     
- *       '400':
- *         description: Erreur lors de la récupération.
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: ID de la catégorie.
+ *                         example: 1
+ *                       nom:
+ *                         type: string
+ *                         description: Nom de la catégorie.
+ *                         example: "Jeunesse"
+ *                       description:
+ *                         type: string
+ *                         description: Description de la catégorie.
+ *                         example: "Catégorie dédiée à la jeunesse"
+ *       '404':
+ *         description: Aucune catégorie trouvée.
  *         content:
  *           application/json:
  *             schema:
@@ -206,20 +182,21 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Une erreur s'est produite lors du traitement !!!"
+ *                   example: "Une erreur s'est produite lors du traitement !"
  * 
  * /categorie/editCategorie:
  *   put:
- *     summary: Mettre à jour la catégorie
+ *     summary: Mettre à jour une catégorie
  *     security:
- *          - bearerAuth: []
- *     description: Modifier la catégorie dans la base de données.
+ *       - bearerAuth: []
+ *     description: Modifier une catégorie existante dans la base de données.
  *     parameters:
- *          - name: id
- *            in: query
- *            required: true
- *            scheme: 
- *              type: integer
+ *       - name: id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: ID de la catégorie à mettre à jour.
  *     tags: [Categorie]
  *     requestBody:
  *       required: true
@@ -230,18 +207,18 @@ const categorieRoute = Router()
  *             properties:
  *               nom:
  *                 type: string
- *                 description: Catégorie de l'évènement.
- *                 example: "fonctionnaire"
+ *                 description: Nom de la catégorie.
+ *                 example: "string"
  *               description:
  *                 type: string
- *                 description: description de la catégorie.
- *                 example: "catégorie dédiée aux fonctionnaire"
+ *                 description: Description de la catégorie.
+ *                 example: "string"
  *             required:
  *               - nom
  *               - description
  *     responses:
  *       '200':
- *         description: Mise à jour de la catégorie avec l'ID.
+ *         description: Catégorie mise à jour avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -249,19 +226,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
+ *                   example: "Mise à jour effectuée !"
  *       '401':
- *         description: Erreur de token.
+ *         description: Erreur d'authentification.
  *         content:
  *           application/json:
  *             schema:
@@ -269,7 +236,7 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Accès non-autorisé !"
+ *                   example: "Accès non autorisé !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -279,24 +246,25 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Une erreur s'est produite lors du traitement !!!"
+ *                   example: "Une erreur s'est produite lors du traitement !"
  * 
  * /categorie/deleteCategorie:
  *   delete:
- *     summary: Supprimer la catégorie
+ *     summary: Supprimer une catégorie
  *     security:
- *          - bearerAuth: []
- *     description: Supprimer la catégorie dans la base de données.
+ *       - bearerAuth: []
+ *     description: Supprimer une catégorie existante dans la base de données.
  *     parameters:
- *          - name: id
- *            in: query
- *            required: true
- *            scheme: 
- *              type: integer
+ *       - name: id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: ID de la catégorie à supprimer.
  *     tags: [Categorie]
  *     responses:
  *       '200':
- *         description: Supprimer la catégorie avec l'ID.
+ *         description: Catégorie supprimée avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -304,19 +272,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Suppression éffectuée"
- *       '400':
- *         description: catégorie introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cette catégorie n'existe !"
+ *                   example: "Suppression effectuée !"
  *       '401':
- *         description: Erreur de token.
+ *         description: Erreur d'authentification.
  *         content:
  *           application/json:
  *             schema:
@@ -324,7 +282,17 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Accès non-autorisé !"
+ *                   example: "Accès non autorisé !"
+ *       '404':
+ *         description: Catégorie introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Cette catégorie n'existe pas !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:
@@ -334,8 +302,9 @@ const categorieRoute = Router()
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Une erreur s'est produite lors du traitement !!!"
+ *                   example: "Une erreur s'est produite lors du traitement !"
  */
+
 categorieRoute.post("/createCategorie" , auth ,validateSchema(createCategorieSchema) , CategorieService.createCategorie);
 categorieRoute.get('/getCategorie' , CategorieService.getCategorieById);
 categorieRoute.get('/getAllCategorie' ,CategorieService.getAllCategorie);

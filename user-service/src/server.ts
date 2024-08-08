@@ -20,6 +20,7 @@ import lignProgrammeRoute from "./controllers/lignProgrammeController";
 import packageRoute from "./controllers/packageController";
 import ticketRoute from "./controllers/ticketController";
 import eventCategorieRoute from "./controllers/eventCategorieController";
+import residenceRoute from "./controllers/reservation/residenceController";
 
 dotenv.config({
     path: '.env'
@@ -50,6 +51,7 @@ app.use('/lignProgramme' , lignProgrammeRoute);
 app.use('/package' , packageRoute);
 app.use('/ticket' , ticketRoute);
 app.use('/eventCategorie' , eventCategorieRoute);
+app.use('/residence' , residenceRoute);
 app.all('*' , (req , _res , next) => {
     next(new ApiError(`can't find this route : ${req.originalUrl}`, 404))
 })

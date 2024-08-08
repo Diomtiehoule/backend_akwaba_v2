@@ -38,17 +38,19 @@ const lignProgrammeRoute= Router();
  *               lignProgramme:
  *                 type: string
  *                 description: lignProgramme évènement.
- *                 example: "port bouet 2"
+ *                 example: "string"
  *               longitude:
  *                 type: number
  *                 description: longitude .
- *                 exmple: 125.2
- *               largitude:
+ *                 example: 0
+ *               latitude:
  *                 type: number
- *                 description: largitude.
+ *                 description: latitude.
+ *                 example: 0
  *               evenement:
  *                 type: string
  *                 description: Evenement associé à l'lignProgramme.
+ *                 example: "string"
  *             required:
  *               - lignProgramme
  *               - longitude
@@ -70,39 +72,6 @@ const lignProgrammeRoute= Router();
  *                 message:
  *                   type: string
  *                   example: "lignProgramme créé !"
- *                 data:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: number
- *                       description: id de l'lignProgramme.
- *                       example: 1
- *                     lignProgramme:
- *                       type: string
- *                       description: lignProgramme.
- *                       example: "port bouet 2"
- *                     longitude:
- *                       type: number
- *                       description: Longitude.
- *                       example: 200.3
- *                     largitude:
- *                       type: number
- *                       description: Largitude.
- *                       example: 100.3
- *                     evenement:
- *                       type: string
- *                       description: Evenement
- *                       example: "festival"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -156,20 +125,20 @@ const lignProgrammeRoute= Router();
  *                     lignProgramme:
  *                       type: string
  *                       description: lignProgramme de l'évènement.
- *                       example: "port bouet 2"
+ *                       example: "string"
  *                     longitude:
  *                       type: number
  *                       description: Longitude de l'lignProgramme.
- *                       example: 200.3
+ *                       example: 0
  *                     largitude:
  *                       type: number
  *                       description: Largitude de l'lignProgramme.
- *                       example: 100.3
+ *                       example: 0
  *                     evenement:
  *                       type: string
  *                       description: L'évènement associé à l'lignProgramme.
- *                       example: "festival"
- *       '400':
+ *                       example: "string"
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -216,21 +185,21 @@ const lignProgrammeRoute= Router();
  *                     lignProgramme:
  *                       type: string
  *                       description: lignProgramme de l'évènement.
- *                       example: "port bouet 2"
+ *                       example: "string"
  *                     longitude:
  *                       type: number
  *                       description: Longitude de l'lignProgramme.
- *                       example: 200.3
+ *                       example: 0
  *                     largitude:
  *                       type: number
  *                       description: Largitude de l'lignProgramme.
- *                       example: 100.3
+ *                       example: 0
  *                     evenement:
  *                       type: string
  *                       description: L'évènement associé à l'lignProgramme.
- *                       example: "festival"
+ *                       example: "string"
  *                     
- *       '400':
+ *       '404':
  *         description: Erreur lors de la récupération.
  *         content:
  *           application/json:
@@ -274,19 +243,19 @@ const lignProgrammeRoute= Router();
  *               lignProgramme:
  *                 type: string
  *                 description: lignProgramme de l'évènement.
- *                 example: "marocry INJS"
+ *                 example: "string"
  *               longitude:
  *                 type: number
  *                 description: longitude.
- *                 example: 650.8
+ *                 example: 0
  *               largitude:
  *                 type: number
  *                 description: largitude.
- *                 example: 875.21
+ *                 example: 0
  *               evenement:
  *                 type: string
  *                 description: Evenement associé à la lignProgramme.
- *                 example: "Tournoi"
+ *                 example: "string"
  *             required:
  *               - lignProgramme
  *               - longitude
@@ -303,16 +272,6 @@ const lignProgrammeRoute= Router();
  *                 message:
  *                   type: string
  *                   example: "Mise à jour éffectuée"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -358,16 +317,6 @@ const lignProgrammeRoute= Router();
  *                 message:
  *                   type: string
  *                   example: "Suppression éffectuée"
- *       '400':
- *         description: lignProgramme introuvable.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cette lignProgramme n'existe !"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -378,6 +327,16 @@ const lignProgrammeRoute= Router();
  *                 message:
  *                   type: string
  *                   example: "Accès non-autorisé !"
+ *       '404':
+ *         description: lignProgramme introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Cette lignProgramme n'existe !"
  *       '500':
  *         description: Erreur interne du serveur.
  *         content:

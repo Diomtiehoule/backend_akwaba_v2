@@ -21,6 +21,14 @@ const produitService = {
             console.error(`Erreur lors de la création du produit: ${err}`);
             throw new Error("Une erreur est survenue lors de la création du produit.");
         }
+    },
+    deleteTicket: async (id : number): Promise<any> => {
+        try {
+            const produit = await prisma.produit.deleteMany()
+        } catch (err) {
+            console.error(`Erreur lors de la création du produit: ${err}`);
+            throw new Error("Une erreur est survenue lors de la création du produit.");
+        }
     }
 };
 

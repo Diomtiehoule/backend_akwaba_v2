@@ -32,11 +32,11 @@ const typeRoute = Router()
  *               typeEvent:
  *                 type: string
  *                 description: le type d'évènement.
- *                 example: "personel"
+ *                 example: "string"
  *               description:
  *                 type: string
  *                 description: description du type d'évènement .
- *                 example: "évènement de type restreint"
+ *                 example: "string"
  *             required:
  *               - typeEvent
  *               - description
@@ -61,21 +61,11 @@ const typeRoute = Router()
  *                     typeEvent:
  *                       type: string
  *                       description: type d'évènement.
- *                       example: "personel"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description du type d'évènement .
- *                       example: "évènement de type restreint"
- *       '400':
- *         description: Erreur champs.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Veuillez remplir tout les champs !"
+ *                       example: "string"
  *       '401':
  *         description: Erreur de token.
  *         content:
@@ -129,11 +119,11 @@ const typeRoute = Router()
  *                     typeEvent:
  *                       type: string
  *                       description: le type d'évènement.
- *                       example: "personel"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description du type d'évènement.
- *                       example: "évènement de type restreint"
+ *                       example: "string"
  *       '400':
  *         description: Erreur lors de la récupération.
  *         content:
@@ -181,11 +171,11 @@ const typeRoute = Router()
  *                     typeEvent:
  *                       type: string
  *                       description: le type d'évènement.
- *                       example: "personel"
+ *                       example: "string"
  *                     description:
  *                       type: string
  *                       description: description du type d'évènement.
- *                       example: "évènement de type restreint"
+ *                       example: "string"
  *                     
  *       '400':
  *         description: Erreur lors de la récupération.
@@ -231,11 +221,11 @@ const typeRoute = Router()
  *               typeEvent:
  *                 type: string
  *                 description: le type d'évènement.
- *                 example: "personel"
+ *                 example: "string"
  *               description:
  *                 type: string
  *                 description: description du type d'évènement.
- *                 example: "évènement de type restreint"
+ *                 example: "string"
  *             required:
  *               - typeEvent
  *               - description
